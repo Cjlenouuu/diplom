@@ -1,7 +1,4 @@
-/*
-INSERT INTO `kurs`.`user` (`Email`, `Password`, `FirstName`, `LastName`, `RoleId`) VALUES ('aaaaaaaaa', '1', 'A', 'B', 'R');
-
- */
+//Форма для редактирования данных бегуна
 package kurswork.runner;
 
 import java.awt.Image;
