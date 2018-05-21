@@ -19,9 +19,7 @@ import kurswork.MainClass;
  */
 public class AdminUser extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Wablon
-     */
+    public static String Email = null;
     public AdminUser() {
         super("&&&");
         initComponents();{DefaultTableModel dtm = getDataUser();
@@ -41,27 +39,57 @@ public class AdminUser extends javax.swing.JFrame {
         dtm.addColumn("Фамилия");
         dtm.addColumn("Email");
         dtm.addColumn("Роль");
-        dtm.addColumn("");
+     
         try{
         Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("select * from user");
         while(rs.next())
         {
-            jButton1 = new javax.swing.JButton();
-            jButton1.setText("Edit");
+
             String Name = rs.getString(3);
             String Surname = rs.getString(4);
             String Email = rs.getString(1);
             String Role = rs.getString(5);
-            dtm.addRow(new Object[]{Name,Surname,Email,Role,jButton1});
+            dtm.addRow(new Object[]{Name,Surname,Email,Role});
             
         }
         return dtm;
         }catch(Exception ex){System.out.println("Ошибка в таблицк");}
         return null;
     }
+    
+    private DefaultTableModel getDataUser(String filter)
+    {
+        System.out.println(filter);
+        DefaultTableModel dtm = new DefaultTableModel(){ 
+            public Class getColumnClass(int column)
+            {
+                return getValueAt(1, column).getClass();
+            }
+        };
+        dtm.addColumn("Имя");
+        dtm.addColumn("Фамилия");
+        dtm.addColumn("Email");
+        dtm.addColumn("Роль");
+     
+        try{
+        Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from user where Email like '%"+filter+"%' or FirstName like '%"+filter+"%' or LastName like '%"+filter+"%'");
+        while(rs.next())
+        {
 
+            String Name = rs.getString(3);
+            String Surname = rs.getString(4);
+            String Email = rs.getString(1);
+            String Role = rs.getString(5);
+            dtm.addRow(new Object[]{Name,Surname,Email,Role});
+        }
+        return dtm;
+        }catch(Exception ex){System.out.println("Ошибка в таблицк");}
+        return null;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,7 +109,9 @@ public class AdminUser extends javax.swing.JFrame {
         nameL = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         userT = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        editB = new javax.swing.JButton();
+        findTF = new javax.swing.JTextField();
+        findB = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -162,7 +192,26 @@ public class AdminUser extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(userT);
 
-        jButton1.setText("Edit");
+        editB.setBackground(MainClass.greenColor);
+        editB.setText("Редактировать выбранного пользователя");
+        editB.setFont(MainClass.fontB);
+        editB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBActionPerformed(evt);
+            }
+        });
+
+        findTF.setFont(MainClass.fontB);
+        findTF.setBackground(MainClass.greenColor);
+
+        findB.setBackground(MainClass.greenColor);
+        findB.setText("Поиск");
+        findB.setFont(MainClass.fontB);
+        findB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findBActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainPLayout = new javax.swing.GroupLayout(mainP);
         mainP.setLayout(mainPLayout);
@@ -171,14 +220,19 @@ public class AdminUser extends javax.swing.JFrame {
             .addComponent(dawnP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(headP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(mainPLayout.createSequentialGroup()
-                .addGap(213, 213, 213)
-                .addComponent(nameL)
+                .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainPLayout.createSequentialGroup()
+                        .addGap(213, 213, 213)
+                        .addComponent(nameL))
+                    .addGroup(mainPLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(editB)
+                        .addGap(18, 18, 18)
+                        .addComponent(findTF, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addComponent(findB, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(283, 283, 283))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         mainPLayout.setVerticalGroup(
             mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,10 +240,13 @@ public class AdminUser extends javax.swing.JFrame {
                 .addComponent(headP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(nameL)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editB)
+                    .addComponent(findTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(findB))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dawnP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -207,6 +264,21 @@ public class AdminUser extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void editBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBActionPerformed
+    Email = (String) userT.getValueAt(userT.getSelectedRow(), 3);
+    
+    }//GEN-LAST:event_editBActionPerformed
+
+    private void findBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findBActionPerformed
+    String filter = findTF.getText();
+        System.out.println(filter);
+    DefaultTableModel dtm = getDataUser(filter);
+    userT.setModel(dtm);
+    
+        
+    // TODO add your handling code here:
+    }//GEN-LAST:event_findBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -247,8 +319,10 @@ public class AdminUser extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backB;
     private javax.swing.JPanel dawnP;
+    private javax.swing.JButton editB;
+    private javax.swing.JButton findB;
+    private javax.swing.JTextField findTF;
     private javax.swing.JPanel headP;
-    private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainP;

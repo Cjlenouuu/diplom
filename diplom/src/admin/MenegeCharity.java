@@ -1,8 +1,6 @@
 //Добавить перенос текста в таблице
 package admin;
 
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
-import java.awt.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 import kurswork.HomeF;
 import kurswork.MainClass;
-import kurswork.info.*;
 
 
 public class MenegeCharity extends javax.swing.JFrame {
