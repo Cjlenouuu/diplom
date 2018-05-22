@@ -3,6 +3,10 @@ package admin;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,6 +27,7 @@ public class AddOrEditCharity extends javax.swing.JFrame {
 
     boolean edit = false;
     int charityID;
+    String s = null;
     
     public AddOrEditCharity(String nameCharity) throws SQLException {
         
@@ -30,17 +35,16 @@ public class AddOrEditCharity extends javax.swing.JFrame {
         
         System.out.println(nameCharity);
         initComponents();
-        {if (nameCharity != null) {
+        {if (nameCharity != null) { //Проверка на то что должна форма: редактировать или добавлять 
             nameL.setText("Редактирование благотварительной организации");
             try{
-            getDataForCharity(nameCharity);
+            getDataForCharity(nameCharity);//
             edit = true;
             }catch(Exception ex){System.out.print(ex);}
         } else {
             nameL.setText("Добавить благотварительную организацию");
         }}
-        setLocationRelativeTo(null);
-        
+        setLocationRelativeTo(null);     
     }
 
    
@@ -328,10 +332,10 @@ public class AddOrEditCharity extends javax.swing.JFrame {
         int res = fileChooser.showDialog(null, "Открыть файл");
         if (res == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-            String path = file.getAbsolutePath();
+            String path = file.getAbsolutePath(); // Передаем строке путь до файла
             logoCharityTF.setText(path);
             System.out.println(path);
-            
+            s = path;
             logoImageL.setIcon(ResizeImage(path));
         }
         
@@ -343,6 +347,7 @@ public class AddOrEditCharity extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelBActionPerformed
 
     private void saveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBActionPerformed
+        //Медот для сохранения изменения
         try {
             Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
             Statement stm = con.createStatement();
@@ -355,13 +360,19 @@ public class AddOrEditCharity extends javax.swing.JFrame {
             
             
             if (edit == true) { //Проверка: что необходимо сделать редактировать или добавить, если истина, то редактирование 
-                
+                //Редактирование
                 sql = "UPDATE `charity` SET `CharityName` = '" + chrityName 
                         + "', `CharityDescription` = `" + chrityDesc + "`,`CharityLogo` = `" + chrityLogo 
                         + "`,`CharityLogoFile` = ? WHERE `charity`.`CharityId` = " + charityID + ";";//Пока не ясно как вставлять переметр ))))
-                stm = con.prepareStatement(sql);
-                //stm.setBlob(4, );
-                stm.executeUpdate(sql);
+                try {
+                PreparedStatement pstm = con.prepareStatement(sql);
+                InputStream file = new FileInputStream(new File(s));
+                pstm.setBlob(1,  file);
+                pstm.executeUpdate();
+                } catch (Exception e) {
+                    System.err.println(e);
+                    System.out.println("djn");
+                }
             } else { //иначе идет добавление
                 sql = "INSERT INTO `charity` (`CharityName`, `CharityDescription`, `CharityLogo`, `CharityLogoFile`) VALUES "
                         + "('" + chrityName + "',  '" + chrityDesc + "',  '" + chrityLogo + "', ?);";
@@ -380,22 +391,29 @@ public class AddOrEditCharity extends javax.swing.JFrame {
 
     
 
-    
+    //Метод берет данные из БД и выводит их на форму
     void getDataForCharity(String nameCharity) throws SQLException {
+        Blob blob = null; // Создаём переменную BLOB в которую занесем данные из БД
+        byte[] image1 = null; //Создаем массиф в который занесем байт код картинки
+        
         String sql = "SELECT * FROM `charity` WHERE CharityName like '" + nameCharity + "';";
         Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery(sql);
         rs.next();
+        
         descCharityTA.setText(rs.getString(3));
         nameCharityTF.setText(rs.getString(2));
         String logo = rs.getString(4);
         charityID = rs.getInt(1);
-        ImageIcon imageIcon = (ImageIcon) rs.getBlob(5);
-        //System.out.println(rs.getString(5));
         logoCharityTF.setText(logo);
-       // logoImageL.setIcon(new javax.swing.ImageIcon(imageIcon)));
-        //logoImageL.setIcon(new javax.swing.ImageIcon(getClass().getResource(logo)));
+       
+        blob = rs.getBlob(5); //Получаем данные блоб из таблици 
+        
+            image1 = blob.getBytes(1, (int) blob.length()); //Делаем байт код и заносим в массив
+            ImageIcon image = new ImageIcon(image1); //Присваиваем выбранный массиф иконке 
+            logoImageL.setIcon(image); //выводим иконку на метку
+            
     }
     
     public ImageIcon ResizeImage(String imgPath) {

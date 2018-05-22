@@ -19,6 +19,7 @@ public class MenegeCharity extends javax.swing.JFrame {
     String name;
     String desc;
     
+    
     public MenegeCharity() {
         super("Управление");
         initComponents();
@@ -287,6 +288,7 @@ public class MenegeCharity extends javax.swing.JFrame {
     }//GEN-LAST:event_charityTMouseClicked
 
     private void editBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBActionPerformed
+       
         if (name != null) {
             try {
                 new AddOrEditCharity(name).setVisible(true);
