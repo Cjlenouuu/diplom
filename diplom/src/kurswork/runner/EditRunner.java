@@ -4,7 +4,6 @@ package kurswork.runner;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.text.ParseException;
@@ -19,7 +18,6 @@ import javax.swing.text.MaskFormatter;
 import kurswork.HomeF;
 import kurswork.MainClass;
 import kurswork.runner.MenuRunner;
-import scripts.CountryDB;
 
 /**
  *
@@ -66,7 +64,15 @@ public class EditRunner extends javax.swing.JFrame {
             Logger.getLogger(EditRunner.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+        public ImageIcon ResizeImage(ImageIcon image1) {
+        ImageIcon MyImage = image1;
+        Image img = MyImage.getImage();
+        Image newImage = img.getScaledInstance(ImageIcon.getWidth(), ImageIcon.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImage);
+        return image;
+    }
+    
     private void getDataFromBase() {
         try {
             Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
@@ -85,7 +91,8 @@ public class EditRunner extends javax.swing.JFrame {
             try {
                 image1 = blob.getBytes(1, (int) blob.length());
                 ImageIcon image = new ImageIcon(image1);
-                ImageIcon.setIcon(image);
+                ImageIcon.setIcon(ResizeImage(image));
+//ImageIcon.setIcon(image);
             } catch (Exception ex) {
                 System.out.print("Ошибка с картинкой");
                 ImageIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/foto.png")));
@@ -97,13 +104,20 @@ public class EditRunner extends javax.swing.JFrame {
             FName = rs.getString(3);
             LName = rs.getString(4);
             rs.close();
-            stmt.close();
-            con.close();
-            pas2TF.setText(Pass1);
-            pas1TF.setText(Pass1);
-            surnamerunTF.setText(FName);
-            namerunTF.setText(LName);
-            getSelectedItem(Country);
+            
+           pas2TF.setText(Pass1);
+           pas1TF.setText(Pass1);
+           surnamerunTF.setText(FName);
+           namerunTF.setText(LName);
+           rs = stmt.executeQuery("select * from country where CountryCode = '"+Country+"'");
+           rs.next();
+           String countryName = rs.getString(2);
+           countryCB.setSelectedItem(countryName);
+           stmt.close();
+           con.close();
+          
+            if (Gender.equals("Male"))
+                    {genderCB.setSelectedItem("Мужской");}else{genderCB.setSelectedItem("Женский");}
         } catch (Exception ex) {
             System.err.println(ex);
             System.out.println("тут?");
@@ -143,7 +157,7 @@ public class EditRunner extends javax.swing.JFrame {
             InputStream is = new FileInputStream(new File(s));
             String eMail = (String) MainClass.emailR;
             // PreparedStatement ps = con.prepareStatement("UPDATE runner SET Image='" + is +" WHERE RunnerId = '" + eMail + "';");
-            PreparedStatement ps = con.prepareStatement("UPDATE `kurs`.`runner` SET `Image`=? WHERE `RunnerId`='" + ID + "';");
+            PreparedStatement ps = con.prepareStatement("UPDATE runner SET `Image`=? WHERE `RunnerId`='" + ID + "';");
             ps.setBlob(1, is);
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data Inserted");

@@ -206,7 +206,7 @@ public class HomeF extends javax.swing.JFrame {
     private void testBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testBActionPerformed
 try
 {
-    Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.USER);
+    Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
     JOptionPane.showMessageDialog(this, "Соединение с базой данных установлено", "УсПеШнОе СоЕдИнЕнИе", JOptionPane.INFORMATION_MESSAGE);
            
 }catch(Exception ex)
