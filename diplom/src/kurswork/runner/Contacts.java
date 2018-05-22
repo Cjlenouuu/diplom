@@ -1,5 +1,5 @@
 /*
-Контакты для связи с руководством (Проверка Жека)
+Контакты для связи с руководством (Жека)
  */
 package kurswork.runner;
 
@@ -10,7 +10,7 @@ package kurswork.runner;
 public class Contacts extends javax.swing.JFrame {
 
     /**
-     * Создана из формы шаблона 
+     * Создана из формы шаблона(Альберт) 
      */
     public Contacts() {
         super("Контакты");
