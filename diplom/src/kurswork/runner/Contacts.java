@@ -1,5 +1,5 @@
 /*
-Контакты для связи с руководством (Проверка Жека)
+Контакты для связи с руководством (Проверка Жека) Альберт
  */
 package kurswork.runner;
 
@@ -10,7 +10,7 @@ package kurswork.runner;
 public class Contacts extends javax.swing.JFrame {
 
     /**
-     * Creates new form Wablon
+     * Creates new form Wablon Жека
      */
     public Contacts() {
         super("Контакты");
