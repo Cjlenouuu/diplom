@@ -10,7 +10,7 @@ package kurswork.runner;
 public class Contacts extends javax.swing.JFrame {
 
     /**
-     * Creates new form Wablon
+     * Создана из формы шаблона 
      */
     public Contacts() {
         super("Контакты");
