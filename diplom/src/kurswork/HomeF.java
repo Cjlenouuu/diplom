@@ -1,9 +1,8 @@
 
 package kurswork;
 
-import java.sql.Connection;
+import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
 import kurswork.runner.RunnerW;
 import kurswork.sponsor.Sponsor;
@@ -206,9 +205,9 @@ public class HomeF extends javax.swing.JFrame {
     private void testBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testBActionPerformed
 try
 {
-    Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+    Connection con = (Connection) DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
     JOptionPane.showMessageDialog(this, "Соединение с базой данных установлено", "УсПеШнОе СоЕдИнЕнИе", JOptionPane.INFORMATION_MESSAGE);
-           
+    con.close();
 }catch(Exception ex)
 {
     JOptionPane.showMessageDialog(this, "Соединение с базой данных не установлено", "ОшИбКа", JOptionPane.ERROR_MESSAGE);

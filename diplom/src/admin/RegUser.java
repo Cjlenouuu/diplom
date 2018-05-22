@@ -2,8 +2,9 @@
 INSERT INTO `kurs`.`user` (`Email`, `Password`, `FirstName`, `LastName`, `RoleId`) VALUES ('aaaaaaaaa', '1', 'A', 'B', 'R');
 
  */
-package kurswork;
+package admin;
 
+import kurswork.*;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,17 +27,18 @@ import kurswork.runner.MenuRunner;
  *
  * @author user
  */
-public class Reg extends javax.swing.JFrame {
+public class RegUser extends javax.swing.JFrame {
 
     private boolean checklog;
     boolean checkpas, checkname, checksurname;
     String s = null;
    
             
-    public Reg() {
+    public RegUser() {
         super("Регистрация");
         initComponents();
         getCountry();
+        getRole();
         setLocationRelativeTo(null);
         
     }
@@ -65,6 +67,21 @@ public class Reg extends javax.swing.JFrame {
         }
     }
         
+        
+                private void getRole() {
+        Connection con;
+        try {
+            con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select RoleName from role;");
+            while (rs.next()) {
+                String str = rs.getString(1);
+                roleCB.addItem(str);
+            }
+        } catch (SQLException ex) {
+            System.err.print(ex);
+        }
+    }
     //Метод для сохранения картики в базе данных
         private void saveIcon() {
         try {
@@ -141,6 +158,8 @@ public class Reg extends javax.swing.JFrame {
         nameL3 = new javax.swing.JLabel();
         ImageIcon = new javax.swing.JLabel();
         chooserB = new javax.swing.JButton();
+        loginL1 = new javax.swing.JLabel();
+        roleCB = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -233,7 +252,7 @@ public class Reg extends javax.swing.JFrame {
 
         loginB.setBackground(new java.awt.Color(0, 144, 62));
         loginB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        loginB.setText("Зарегистрироваться");
+        loginB.setText("Зарегистрировать");
         loginB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginBActionPerformed(evt);
@@ -257,13 +276,13 @@ public class Reg extends javax.swing.JFrame {
 
         nameL.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
         nameL.setForeground(new java.awt.Color(80, 80, 80));
-        nameL.setText("Регистрация бегуна");
-        mainP.add(nameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 89, -1, -1));
+        nameL.setText("Зарегистрировать пользователя");
+        mainP.add(nameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, -1, -1));
 
         paragraphL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         paragraphL.setForeground(new java.awt.Color(80, 80, 80));
-        paragraphL.setText("<html><p align='center'>Пожалуйста, заполните всю информацию, чтобы зарегистрироваться </p><p align='center'>в качестве бегуна</p></html>");
-        mainP.add(paragraphL, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 139, -1, -1));
+        paragraphL.setText("Заполните все поля для регистрации пользователя");
+        mainP.add(paragraphL, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
         mainP.add(pas2TF, new org.netbeans.lib.awtextra.AbsoluteConstraints(164, 242, 170, -1));
         pas2TF.setToolTipText("Повторите пароль");
 
@@ -353,6 +372,19 @@ public class Reg extends javax.swing.JFrame {
         });
         mainP.add(chooserB, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, 330, -1));
 
+        loginL1.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        loginL1.setForeground(new java.awt.Color(80, 80, 80));
+        loginL1.setText("Роль пользователя:");
+        mainP.add(loginL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 150, 30));
+
+        roleCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
+        roleCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roleCBActionPerformed(evt);
+            }
+        });
+        mainP.add(roleCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 150, 190, -1));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -379,12 +411,12 @@ public class Reg extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
-        new HomeF().setVisible(true);
+            new AdminUser().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBActionPerformed
 
     private void cancelBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBActionPerformed
-        new HomeF().setVisible(true);
+        new AdminUser().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_cancelBActionPerformed
 
@@ -424,6 +456,7 @@ public class Reg extends javax.swing.JFrame {
                 rs.close();
                 stmt.close();
                 con.close();
+                JOptionPane.showMessageDialog(this, "Такой Email уже существует", "Ошибка", JOptionPane.INFORMATION_MESSAGE);
                 System.out.println("Такой Email уже существует");
                 emailerrorL.setText("*");
                 checklog = false;
@@ -436,7 +469,7 @@ public class Reg extends javax.swing.JFrame {
             pw2 = pas2TF.getText();
             name = namerunTF.getText();
             surname = surnamerunTF.getText();
-                    if (length(pw1)>6){
+                    if (length(pw1)>=6){
                     badPassL.setText("");
                     String str2 = pw1.toLowerCase();
                     checkpas = pw1.equals(str2);
@@ -488,15 +521,22 @@ public class Reg extends javax.swing.JFrame {
           try {
               
              
-              String insert1 = "INSERT INTO user (Email, Password, FirstName, LastName, RoleId) VALUES ('" + eMail + "', '" + pw1 + "', '" + surname + "', '" + name + "', 'R');";
+              
               
                   Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
                   Statement stmt = con.createStatement();
                   ResultSet rs = stmt.executeQuery("SELECT CountryCode FROM country where CountryName like '" + country + "';");
                     rs.next();
                     String str =rs.getString(1);
+                    rs.close();
+                    String roleN = (String) roleCB.getSelectedItem();
+                    rs = stmt.executeQuery("select * from role where RoleName = '"+roleN+"'");
+                    rs.next();
+                    String roleID = rs.getString(1);
+                    rs.close();
                     String insert2 = "INSERT INTO runner ( Email, Gender, DateOfBirth, CountryCode) VALUES ('" + eMail + "','" + gender + "', '" + dr + "', '" + str + "');";
-                  stmt.executeUpdate(insert1);
+                    String insert1 = "INSERT INTO user (Email, Password, FirstName, LastName, RoleId) VALUES ('" + eMail + "', '" + pw1 + "', '" + surname + "', '" + name + "', '"+roleID+"');";
+                    stmt.executeUpdate(insert1);
                   try{
                   stmt.executeUpdate(insert2);
                   }catch(Exception e) {
@@ -508,17 +548,18 @@ public class Reg extends javax.swing.JFrame {
                   stmt.close();
                   con.close();
                   MainClass.emailR = eMail;
-                 if (s!=null){saveIcon();}
+                  if (s!=null){saveIcon();}
                   System.out.println("Пользователь добавлен");
-                  new MenuRunner().setVisible(true);
-          MainClass.emailR = eMail;
+                  JOptionPane.showMessageDialog(this, "Пользователь успешно добавлен", "Успех", JOptionPane.INFORMATION_MESSAGE);
+          new AdminUser().setVisible(true);
+          
           this.dispose();
               } catch (Exception e) {
                   e.printStackTrace();
                   System.out.println("Ошибка");
                   
               }
-          
+
          
     }
     }//GEN-LAST:event_loginBActionPerformed
@@ -542,6 +583,10 @@ public class Reg extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_chooserBActionPerformed
 
+    private void roleCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roleCBActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -559,14 +604,18 @@ public class Reg extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Reg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Reg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Reg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Reg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -575,7 +624,7 @@ public class Reg extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Reg().setVisible(true);
+                new RegUser().setVisible(true);
             }
         });
     }
@@ -599,6 +648,7 @@ public class Reg extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton loginB;
     private javax.swing.JLabel loginL;
+    private javax.swing.JLabel loginL1;
     private javax.swing.JTextField mailTF;
     private javax.swing.JPanel mainP;
     private javax.swing.JLabel nameL;
@@ -616,6 +666,7 @@ public class Reg extends javax.swing.JFrame {
     private javax.swing.JLabel passL2;
     private javax.swing.JLabel passL3;
     private javax.swing.JLabel passL4;
+    private javax.swing.JComboBox<String> roleCB;
     private javax.swing.JLabel surnameerrorL;
     private javax.swing.JTextField surnamerunTF;
     private javax.swing.JLabel titleL;

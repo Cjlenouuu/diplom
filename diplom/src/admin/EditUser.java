@@ -1,13 +1,9 @@
-/*
-INSERT INTO `kurs`.`user` (`Email`, `Password`, `FirstName`, `LastName`, `RoleId`) VALUES ('aaaaaaaaa', '1', 'A', 'B', 'R');
-
- */
-package kurswork;
+//Форма для редактирования выбранного пользователя
+package admin;
 
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.text.ParseException;
@@ -19,38 +15,42 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.MaskFormatter;
+import kurswork.HomeF;
+import kurswork.MainClass;
 import kurswork.runner.MenuRunner;
-
 
 /**
  *
  * @author user
  */
-public class Reg extends javax.swing.JFrame {
+public class EditUser extends javax.swing.JFrame {
 
+    String s;
     private boolean checklog;
     boolean checkpas, checkname, checksurname;
-    String s = null;
-   
-            
-    public Reg() {
-        super("Регистрация");
-        initComponents();
-        getCountry();
-        setLocationRelativeTo(null);
-        
-    }
-    
-    //Метод для подгонки загружаемого изображения под форму
-        public ImageIcon ResizeImage(String imgPath) {
+ 
+
+    public ImageIcon ResizeImage(String imgPath) {
         ImageIcon MyImage = new ImageIcon(imgPath);
         Image img = MyImage.getImage();
         Image newImage = img.getScaledInstance(ImageIcon.getWidth(), ImageIcon.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(newImage);
         return image;
     }
-    //Метод для заполнения выпадащего списка странами из БД
-        private void getCountry() {
+
+    public EditUser() {
+        super("Редактирование");
+        getDataFromBase();
+        initComponents();
+        {
+            getCountry();
+            getDataFromBase();
+        }
+        setLocationRelativeTo(null);
+
+    }
+
+    private void getCountry() {
         Connection con;
         try {
             con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
@@ -61,17 +61,96 @@ public class Reg extends javax.swing.JFrame {
                 countryCB.addItem(str);
             }
         } catch (SQLException ex) {
-            System.err.print(ex);
+            Logger.getLogger(EditUser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-        
-    //Метод для сохранения картики в базе данных
-        private void saveIcon() {
+    
+        public ImageIcon ResizeImage(ImageIcon image1) {
+        ImageIcon MyImage = image1;
+        Image img = MyImage.getImage();
+        Image newImage = img.getScaledInstance(ImageIcon.getWidth(), ImageIcon.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImage);
+        return image;
+    }
+    
+    private void getDataFromBase() {
+        try {
+            Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+            Statement stmt = con.createStatement();
+            String FName, LName, RunnerId, Gender, DOB, Country;
+            Blob blob = null;
+            byte[] image1 = null;
+            ResultSet rs = stmt.executeQuery("select * from runner where Email = '" + AdminUser.Email + "'");
+            rs.next();
+            RunnerId = rs.getString(1);
+            Gender = rs.getString(3);
+            DOB = rs.getString(4);
+            Country = rs.getString(5);
+            blob = rs.getBlob(6);
+            drTF.setText(DOB);
+            
+            rs.close();
+            rs = stmt.executeQuery("select * from user where Email = '" + AdminUser.Email + "'");
+            rs.next();
+            String Pass1 = rs.getString(2);
+            FName = rs.getString(3);
+            LName = rs.getString(4);
+            rs.close();
+            
+           pas2TF.setText(Pass1);
+           pas1TF.setText(Pass1);
+           surnamerunTF.setText(FName);
+           namerunTF.setText(LName);
+           rs = stmt.executeQuery("select * from country where CountryCode = '"+Country+"'");
+           rs.next();
+           String countryName = rs.getString(2);
+           countryCB.setSelectedItem(countryName);
+           stmt.close();
+           con.close();
+          
+            if (Gender.equals("Male"))
+                    {genderCB.setSelectedItem("Мужской");}else{genderCB.setSelectedItem("Женский");}
+            try {
+                image1 = blob.getBytes(1, (int) blob.length());
+                ImageIcon image = new ImageIcon(image1);
+                ImageIcon.setIcon(ResizeImage(image));
+//ImageIcon.setIcon(image);
+            } catch (Exception ex) {
+                System.out.print("Ошибка с картинкой");
+                ImageIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/foto.png")));
+            }
+        } catch (Exception ex) {
+            System.err.println(ex);
+            System.out.println("тут?");
+        }
+        //response.setContentType("image/gif");
+        //ImageIcon.setIcon(Image);
+    }
+
+    private void getSelectedItem(String Country) {
+        Connection con;
+        try {
+            con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from country where CountryCode = '" + Country + "'");
+            rs.next();
+            String CName = rs.getString(2);
+            Object O = null;
+            O = CName;
+            countryCB.setSelectedItem(O);
+        } catch (SQLException ex) {
+            System.out.println("тут1?");
+            Logger.getLogger(EditUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void saveIcon() {
         try {
             Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
             Statement stmt = con.createStatement();
             String ID = null;
-            ResultSet rs = stmt.executeQuery("select RunnerId from runner where Email = '" + MainClass.emailR + "'");
+            ResultSet rs = stmt.executeQuery("select RunnerId from runner where Email = '" + AdminUser.Email + "'");
             rs.next();
             ID = rs.getString(1);
             rs.close();
@@ -88,7 +167,8 @@ public class Reg extends javax.swing.JFrame {
             ex.printStackTrace();
         }        // TODO add your handling code here:
 
-    }    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -108,16 +188,12 @@ public class Reg extends javax.swing.JFrame {
         headP = new javax.swing.JPanel();
         backB = new javax.swing.JButton();
         titleL = new javax.swing.JLabel();
-        mailTF = new javax.swing.JTextField();
-        pas1TF = new javax.swing.JTextField();
+        logoutB = new javax.swing.JButton();
         loginL = new javax.swing.JLabel();
         passL = new javax.swing.JLabel();
         loginB = new javax.swing.JButton();
-        cancelB = new javax.swing.JButton();
-        badPassL = new javax.swing.JLabel();
+        chooserB = new javax.swing.JButton();
         nameL = new javax.swing.JLabel();
-        paragraphL = new javax.swing.JLabel();
-        pas2TF = new javax.swing.JTextField();
         passL1 = new javax.swing.JLabel();
         passL2 = new javax.swing.JLabel();
         passL3 = new javax.swing.JLabel();
@@ -137,10 +213,15 @@ public class Reg extends javax.swing.JFrame {
         } catch (ParseException e){e.printStackTrace();}
         drTF = new javax.swing.JFormattedTextField(mf);
         nameL1 = new javax.swing.JLabel();
-        nameL2 = new javax.swing.JLabel();
-        nameL3 = new javax.swing.JLabel();
+        passL5 = new javax.swing.JLabel();
+        loginL1 = new javax.swing.JLabel();
+        passL6 = new javax.swing.JLabel();
+        passL7 = new javax.swing.JLabel();
+        passL8 = new javax.swing.JLabel();
+        cancelB1 = new javax.swing.JButton();
         ImageIcon = new javax.swing.JLabel();
-        chooserB = new javax.swing.JButton();
+        pas1TF = new javax.swing.JPasswordField();
+        pas2TF = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -171,7 +252,7 @@ public class Reg extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        mainP.add(danwP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 545, -1, -1));
+        mainP.add(danwP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 560, -1, -1));
 
         headP.setBackground(new java.awt.Color(0, 144, 62));
 
@@ -189,16 +270,27 @@ public class Reg extends javax.swing.JFrame {
         titleL.setForeground(new java.awt.Color(235, 235, 235));
         titleL.setText("MARATHON SKILLS 2017");
 
+        logoutB.setBackground(new java.awt.Color(253, 193, 0));
+        logoutB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        logoutB.setText("Выход");
+        logoutB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout headPLayout = new javax.swing.GroupLayout(headP);
         headP.setLayout(headPLayout);
         headPLayout.setHorizontalGroup(
             headPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headPLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(64, 64, 64)
                 .addComponent(backB)
-                .addGap(146, 146, 146)
+                .addGap(117, 117, 117)
                 .addComponent(titleL)
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                .addComponent(logoutB)
+                .addGap(24, 24, 24))
         );
         headPLayout.setVerticalGroup(
             headPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,142 +298,32 @@ public class Reg extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(headPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backB)
-                    .addComponent(titleL))
+                    .addComponent(titleL)
+                    .addComponent(logoutB))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
         mainP.add(headP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        mailTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mailTFActionPerformed(evt);
-            }
-        });
-        mainP.add(mailTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(164, 188, 205, -1));
-        mainP.add(pas1TF, new org.netbeans.lib.awtextra.AbsoluteConstraints(164, 215, 170, -1));
-        pas1TF.setToolTipText("<html><p>Требования к паролю:</p><p>•Минимум 6 символов</p><p>•Минимум 1 прописная буква</p><p>•Минимум 1 цифра•</p><p>По крайней мере один из следующих символов: ! @ # $ % ^</p></html>");
-
         loginL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         loginL.setForeground(new java.awt.Color(80, 80, 80));
         loginL.setText("Электроная почта:");
-        mainP.add(loginL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 187, -1, -1));
+        mainP.add(loginL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
 
         passL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         passL.setForeground(new java.awt.Color(80, 80, 80));
         passL.setText("Пароль:");
-        mainP.add(passL, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 214, -1, -1));
+        mainP.add(passL, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 390, -1, -1));
 
         loginB.setBackground(new java.awt.Color(0, 144, 62));
         loginB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        loginB.setText("Зарегистрироваться");
+        loginB.setText("Сохранить");
         loginB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginBActionPerformed(evt);
             }
         });
-        mainP.add(loginB, new org.netbeans.lib.awtextra.AbsoluteConstraints(204, 435, -1, -1));
-
-        cancelB.setBackground(new java.awt.Color(0, 144, 62));
-        cancelB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        cancelB.setText("Отмена");
-        cancelB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelBActionPerformed(evt);
-            }
-        });
-        mainP.add(cancelB, new org.netbeans.lib.awtextra.AbsoluteConstraints(459, 435, 200, -1));
-
-        badPassL.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        badPassL.setForeground(new java.awt.Color(255, 0, 0));
-        mainP.add(badPassL, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 210, 190, 25));
-
-        nameL.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
-        nameL.setForeground(new java.awt.Color(80, 80, 80));
-        nameL.setText("Регистрация бегуна");
-        mainP.add(nameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 89, -1, -1));
-
-        paragraphL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        paragraphL.setForeground(new java.awt.Color(80, 80, 80));
-        paragraphL.setText("<html><p align='center'>Пожалуйста, заполните всю информацию, чтобы зарегистрироваться </p><p align='center'>в качестве бегуна</p></html>");
-        mainP.add(paragraphL, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 139, -1, -1));
-        mainP.add(pas2TF, new org.netbeans.lib.awtextra.AbsoluteConstraints(164, 242, 170, -1));
-        pas2TF.setToolTipText("Повторите пароль");
-
-        passL1.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        passL1.setForeground(new java.awt.Color(80, 80, 80));
-        passL1.setText("Повторите пароль:");
-        mainP.add(passL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 241, -1, -1));
-
-        passL2.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        passL2.setForeground(new java.awt.Color(80, 80, 80));
-        passL2.setText("Имя:");
-        mainP.add(passL2, new org.netbeans.lib.awtextra.AbsoluteConstraints(114, 268, -1, -1));
-
-        passL3.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        passL3.setForeground(new java.awt.Color(80, 80, 80));
-        passL3.setText("Фамилия:");
-        mainP.add(passL3, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 295, -1, -1));
-        mainP.add(namerunTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(164, 269, 170, -1));
-        mainP.add(surnamerunTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(164, 296, 170, -1));
-
-        passL4.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        passL4.setForeground(new java.awt.Color(80, 80, 80));
-        passL4.setText("Пол:");
-        mainP.add(passL4, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 327, -1, -1));
-
-        nameerrorL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        nameerrorL.setForeground(new java.awt.Color(255, 0, 0));
-        mainP.add(nameerrorL, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 268, 32, 21));
-
-        surnameerrorL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        surnameerrorL.setForeground(new java.awt.Color(255, 0, 0));
-        mainP.add(surnameerrorL, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 295, 32, 21));
-
-        paserrorL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        paserrorL.setForeground(new java.awt.Color(255, 0, 0));
-        mainP.add(paserrorL, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 241, 32, 21));
-
-        emailerrorL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        emailerrorL.setForeground(new java.awt.Color(255, 0, 0));
-        mainP.add(emailerrorL, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 187, 32, 21));
-
-        genderCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Мужской", "Женский"}));
-        genderCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genderCBActionPerformed(evt);
-            }
-        });
-        mainP.add(genderCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(164, 327, 90, -1));
-
-        countryCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                countryCBActionPerformed(evt);
-            }
-        });
-        mainP.add(countryCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 400, 150, -1));
-
-        /*
-        drTF.setText(null);
-        */
-        mainP.add(drTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 390, 110, 31));
-
-        nameL1.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        nameL1.setForeground(new java.awt.Color(80, 80, 80));
-        nameL1.setText("Страна:");
-        mainP.add(nameL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 400, -1, -1));
-
-        nameL2.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        nameL2.setForeground(new java.awt.Color(80, 80, 80));
-        nameL2.setText("Формат даты: гггг-мм-дд");
-        mainP.add(nameL2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, -1, -1));
-
-        nameL3.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        nameL3.setForeground(new java.awt.Color(80, 80, 80));
-        nameL3.setText("Дата рождения:");
-        mainP.add(nameL3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, -1, -1));
-
-        ImageIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/foto.jpg"))); // NOI18N
-        mainP.add(ImageIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, 370, 210));
+        mainP.add(loginB, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 480, -1, -1));
 
         chooserB.setBackground(new java.awt.Color(0, 144, 62));
         chooserB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
@@ -351,7 +333,127 @@ public class Reg extends javax.swing.JFrame {
                 chooserBActionPerformed(evt);
             }
         });
-        mainP.add(chooserB, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, 330, -1));
+        mainP.add(chooserB, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 310, 370, -1));
+
+        nameL.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
+        nameL.setForeground(new java.awt.Color(80, 80, 80));
+        nameL.setText("Редактирование выранного пользователя");
+        mainP.add(nameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, -1, -1));
+
+        passL1.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        passL1.setForeground(new java.awt.Color(80, 80, 80));
+        passL1.setText("Повторите пароль:");
+        mainP.add(passL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 427, -1, -1));
+
+        passL2.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        passL2.setForeground(new java.awt.Color(80, 80, 80));
+        passL2.setText("Имя:");
+        mainP.add(passL2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, -1, -1));
+
+        passL3.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        passL3.setForeground(new java.awt.Color(80, 80, 80));
+        passL3.setText("Фамилия:");
+        mainP.add(passL3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, -1, -1));
+
+        namerunTF.setFont(MainClass.fontB);
+        mainP.add(namerunTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 170, -1));
+
+        surnamerunTF.setFont(MainClass.fontB);
+        mainP.add(surnamerunTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, 170, -1));
+
+        passL4.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        passL4.setForeground(new java.awt.Color(80, 80, 80));
+        passL4.setText("Пол:");
+        mainP.add(passL4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, -1, -1));
+
+        nameerrorL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        nameerrorL.setForeground(new java.awt.Color(255, 0, 0));
+        mainP.add(nameerrorL, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 268, 32, 21));
+
+        surnameerrorL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        surnameerrorL.setForeground(new java.awt.Color(255, 0, 0));
+        mainP.add(surnameerrorL, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 278, 32, 21));
+
+        paserrorL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        paserrorL.setForeground(new java.awt.Color(255, 0, 0));
+        mainP.add(paserrorL, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 241, 32, 21));
+
+        emailerrorL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        emailerrorL.setForeground(new java.awt.Color(255, 0, 0));
+        mainP.add(emailerrorL, new org.netbeans.lib.awtextra.AbsoluteConstraints(395, 187, 32, 21));
+
+        genderCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Мужской", "Женский"}));
+        genderCB.setFont(MainClass.fontB);
+        genderCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genderCBActionPerformed(evt);
+            }
+        });
+        mainP.add(genderCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 120, -1));
+
+        countryCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
+        countryCB.setFont(MainClass.fontB);
+        countryCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                countryCBActionPerformed(evt);
+            }
+        });
+        mainP.add(countryCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 260, 170, -1));
+
+        /*
+        drTF.setText(null);
+        */
+        mainP.add(drTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 374, 100, 31));
+        drTF.setFont(MainClass.fontB);
+
+        nameL1.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        nameL1.setForeground(new java.awt.Color(80, 80, 80));
+        nameL1.setText("Формат даты: гггг-мм-дд");
+        mainP.add(nameL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(73, 335, -1, 33));
+
+        passL5.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        passL5.setForeground(new java.awt.Color(80, 80, 80));
+        passL5.setText("Страна:");
+        mainP.add(passL5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, -1, -1));
+
+        loginL1.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        loginL1.setForeground(new java.awt.Color(80, 80, 80));
+        loginL1.setText((String) AdminUser.Email);
+        mainP.add(loginL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 150, -1, -1));
+
+        passL6.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        passL6.setForeground(new java.awt.Color(80, 80, 80));
+        passL6.setText("Смена пароля:");
+        mainP.add(passL6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 340, -1, -1));
+
+        passL7.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        passL7.setForeground(new java.awt.Color(80, 80, 80));
+        passL7.setText("Оставьте эти поля пустыми,");
+        mainP.add(passL7, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 340, -1, -1));
+
+        passL8.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        passL8.setForeground(new java.awt.Color(80, 80, 80));
+        passL8.setText("если не хотите изменять пароль. ");
+        mainP.add(passL8, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 360, -1, -1));
+
+        cancelB1.setBackground(new java.awt.Color(0, 144, 62));
+        cancelB1.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        cancelB1.setText("Отмена");
+        cancelB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelB1ActionPerformed(evt);
+            }
+        });
+        mainP.add(cancelB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 480, 200, -1));
+
+        ImageIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/foto.jpg"))); // NOI18N
+        mainP.add(ImageIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 370, 190));
+
+        pas1TF.setFont(MainClass.fontB);
+        mainP.add(pas1TF, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 390, 170, -1));
+
+        pas2TF.setFont(MainClass.fontB);
+        mainP.add(pas2TF, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 430, 170, -1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -379,149 +481,9 @@ public class Reg extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
-        new HomeF().setVisible(true);
+        new AdminUser().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBActionPerformed
-
-    private void cancelBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBActionPerformed
-        new HomeF().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_cancelBActionPerformed
-
-    private void mailTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mailTFActionPerformed
-        
-    }//GEN-LAST:event_mailTFActionPerformed
-
-    private void genderCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genderCBActionPerformed
-        String a = (String) genderCB.getSelectedItem();//присваивает значение поля переменной
-                // TODO add your handling code here:
-    }//GEN-LAST:event_genderCBActionPerformed
-
-    private void countryCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countryCBActionPerformed
-        String a = (String) countryCB.getSelectedItem();//присваивает значение поля переменной
-                // TODO add your handling code here:
-    }//GEN-LAST:event_countryCBActionPerformed
-
-    private void loginBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBActionPerformed
-        String  pw1 = null, pw2, name = null, surname = null,eMail = null, gender = null, country = null, dr = null;
-        try {
-
-            eMail = mailTF.getText();
-            country = (String) countryCB.getSelectedItem();
-            gender = (String) genderCB.getSelectedItem();
-            if (gender.equals("Мужской")){
-            gender = "Male";
-            }else{
-            gender = "Female";
-            }
-            dr = drTF.getText();
-            try {
-                Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT Email FROM user where Email like '" + eMail + "';");
-                rs.next();
-                String str =rs.getString(1);
-                rs.close();
-                stmt.close();
-                con.close();
-                System.out.println("Такой Email уже существует");
-                emailerrorL.setText("*");
-                checklog = false;
-            } catch (Exception e) {
-                System.out.println("Совпадений нет");
-                checklog = true;
-            }
-
-            pw1 = pas1TF.getText();
-            pw2 = pas2TF.getText();
-            name = namerunTF.getText();
-            surname = surnamerunTF.getText();
-                    if (length(pw1)>6){
-                    badPassL.setText("");
-                    String str2 = pw1.toLowerCase();
-                    checkpas = pw1.equals(str2);
-                    if(checkpas == false){
-                        badPassL.setText("");
-                        paserrorL.setText("");
-                        if  (pw1.equals(pw2)){
-                            checkpas =true;
-                        paserrorL.setText("");
-                         }else{
-                        paserrorL.setText("*");
-                    }
-                }else{
-                        badPassL.setText("Строчные буквы");
-            
-            }
-                }else{
-                        badPassL.setText("Длина > 6");
-            
-            }
-            if (length(name)==0)
-            {
-                checkname = false;
-                nameerrorL.setText("*");
-            }
-            else{
-                checkname = true;
-                nameerrorL.setText("");
-            }
-            if (length(surname) == 0){
-                checksurname = false;
-                surnameerrorL.setText("*");
-            }else{
-                checksurname = true;
-                surnameerrorL.setText("");
-
-            }
-
-        } catch(Exception e) {
-            System.out.println("Пароль не тот");
-            //badPassL.setText("Неверный логин или пароль!!!");
-        }
-        if ((checklog == true) & (checkpas == true) & (checkname == true)& (checksurname == true)) {
-           // genderL.setText("Зарегистрирован");
-            System.out.println(" " + eMail + " "+ pw1 + " " + name + " " + surname + " "+ dr + " " + gender + " " + country);
-
-        }
-        if (checklog == true & checkpas == true & checkname == true & checksurname == true){
-          try {
-              
-             
-              String insert1 = "INSERT INTO user (Email, Password, FirstName, LastName, RoleId) VALUES ('" + eMail + "', '" + pw1 + "', '" + surname + "', '" + name + "', 'R');";
-              
-                  Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
-                  Statement stmt = con.createStatement();
-                  ResultSet rs = stmt.executeQuery("SELECT CountryCode FROM country where CountryName like '" + country + "';");
-                    rs.next();
-                    String str =rs.getString(1);
-                    String insert2 = "INSERT INTO runner ( Email, Gender, DateOfBirth, CountryCode) VALUES ('" + eMail + "','" + gender + "', '" + dr + "', '" + str + "');";
-                  stmt.executeUpdate(insert1);
-                  try{
-                  stmt.executeUpdate(insert2);
-                  }catch(Exception e) {
-                   e.printStackTrace();
-                  System.out.println("Не добавило");
-                  }
-                  //ResultSet rs = stmt.executeQuery(insert);
-                 // rs.close();
-                  stmt.close();
-                  con.close();
-                  MainClass.emailR = eMail;
-                 if (s!=null){saveIcon();}
-                  System.out.println("Пользователь добавлен");
-                  new MenuRunner().setVisible(true);
-          MainClass.emailR = eMail;
-          this.dispose();
-              } catch (Exception e) {
-                  e.printStackTrace();
-                  System.out.println("Ошибка");
-                  
-              }
-          
-         
-    }
-    }//GEN-LAST:event_loginBActionPerformed
 
     private void chooserBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooserBActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -542,6 +504,120 @@ public class Reg extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_chooserBActionPerformed
 
+    private void genderCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genderCBActionPerformed
+        String a = (String) genderCB.getSelectedItem();//присваивает значение поля переменной
+    }//GEN-LAST:event_genderCBActionPerformed
+
+    private void countryCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countryCBActionPerformed
+        String a = (String) countryCB.getSelectedItem();//присваивает значение поля переменной
+    }//GEN-LAST:event_countryCBActionPerformed
+
+    private void loginBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBActionPerformed
+        String pw1 = null, pw2, name = null, surname = null, eMail = (String) AdminUser.Email, gender = null, country = null, dr = null;
+        if (s != null) {
+            saveIcon();
+        }
+        try {
+            country = (String) countryCB.getSelectedItem();
+            gender = (String) genderCB.getSelectedItem();
+            if (gender.equals("Мужской")) {
+                gender = "Male";
+            } else {
+                gender = "Female";
+            }
+            dr = drTF.getText();
+           
+            pw1 = pas1TF.getText();
+            pw2 = pas2TF.getText();
+            name = namerunTF.getText();
+            surname = surnamerunTF.getText();
+            if (length(pw1) >=6 ) {
+                String str2 = pw1.toLowerCase();
+                checkpas = pw1.equals(str2);
+                if (checkpas == false) {
+                    paserrorL.setText("");
+                    if (pw1.equals(pw2)) {
+                        checkpas = true;
+                        paserrorL.setText("");
+                    } else {
+                        paserrorL.setText("*");
+                    }
+                } else {
+                }
+            } else {
+            }
+            if (length(name) == 0) {
+                checkname = false;
+                nameerrorL.setText("*");
+            } else {
+                checkname = true;
+                nameerrorL.setText("");
+            }
+            if (length(surname) == 0) {
+                checksurname = false;
+                surnameerrorL.setText("*");
+            } else {
+                checksurname = true;
+                surnameerrorL.setText("");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Пароль не тот");
+        }
+        if ((checkpas == true) & (checkname == true) & (checksurname == true)) {
+            System.out.println(" " + eMail + " " + pw1 + " " + name + " " + surname + " " + dr + " " + gender + " " + country);
+        }
+        if (checkpas == true & checkname == true & checksurname == true) {
+            try {
+                
+                String insert1 = "UPDATE user SET Password = '" + pw1 + "', FirstName = '" + surname + "', LastName = '" + name + "' WHERE Email = '" + eMail + "';";
+                Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT CountryCode FROM country where CountryName like '" + country + "';");
+                rs.next();
+                String str = rs.getString(1);
+                rs.close();
+                ResultSet rr = stmt.executeQuery("SELECT runnerID FROM runner where Email like '" + eMail + "';");
+                rr.next();
+                String ID = rr.getString(1);
+                System.out.println(ID);
+                String insert2 = "UPDATE runner SET Email='" + eMail + "',Gender = '" + gender + "', DateOfBirth = '" + dr + "', CountryCode= '" + str + "' WHERE RunnerId = '" + ID + "';";
+                try {
+                    stmt.executeUpdate(insert1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Ошибка1");
+                }
+                try {
+                    stmt.executeUpdate(insert2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Ошибка2");
+                }
+                stmt.close();
+                con.close();
+                System.out.println("Обновлено");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Ошибка");
+            }
+            JOptionPane.showMessageDialog(this, "Изменения сохранены успешно, вы будете перенаправлены в меню управления пользователями", "Успешное сохранение данных", JOptionPane.INFORMATION_MESSAGE);
+            new AdminUser().setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_loginBActionPerformed
+
+    private void logoutBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBActionPerformed
+        new HomeF().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_logoutBActionPerformed
+
+    private void cancelB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelB1ActionPerformed
+        new AdminUser().setVisible(true);
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelB1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -559,14 +635,42 @@ public class Reg extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Reg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Reg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Reg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Reg.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -575,7 +679,7 @@ public class Reg extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Reg().setVisible(true);
+                new EditUser().setVisible(true);
             }
         });
     }
@@ -583,8 +687,7 @@ public class Reg extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ImageIcon;
     private javax.swing.JButton backB;
-    javax.swing.JLabel badPassL;
-    private javax.swing.JButton cancelB;
+    private javax.swing.JButton cancelB1;
     private javax.swing.JButton chooserB;
     private javax.swing.JComboBox<String> countryCB;
     private javax.swing.JPanel danwP;
@@ -599,23 +702,25 @@ public class Reg extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton loginB;
     private javax.swing.JLabel loginL;
-    private javax.swing.JTextField mailTF;
+    private javax.swing.JLabel loginL1;
+    private javax.swing.JButton logoutB;
     private javax.swing.JPanel mainP;
     private javax.swing.JLabel nameL;
     private javax.swing.JLabel nameL1;
-    private javax.swing.JLabel nameL2;
-    private javax.swing.JLabel nameL3;
     private javax.swing.JLabel nameerrorL;
     private javax.swing.JTextField namerunTF;
-    private javax.swing.JLabel paragraphL;
-    private javax.swing.JTextField pas1TF;
-    private javax.swing.JTextField pas2TF;
+    private javax.swing.JPasswordField pas1TF;
+    private javax.swing.JPasswordField pas2TF;
     private javax.swing.JLabel paserrorL;
     private javax.swing.JLabel passL;
     private javax.swing.JLabel passL1;
     private javax.swing.JLabel passL2;
     private javax.swing.JLabel passL3;
     private javax.swing.JLabel passL4;
+    private javax.swing.JLabel passL5;
+    private javax.swing.JLabel passL6;
+    private javax.swing.JLabel passL7;
+    private javax.swing.JLabel passL8;
     private javax.swing.JLabel surnameerrorL;
     private javax.swing.JTextField surnamerunTF;
     private javax.swing.JLabel titleL;

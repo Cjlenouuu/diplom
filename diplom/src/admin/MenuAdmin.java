@@ -134,6 +134,11 @@ public class MenuAdmin extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(80, 80, 80));
         jButton1.setText("Пользователи");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(0, 144, 62));
         jButton2.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
@@ -222,6 +227,11 @@ public class MenuAdmin extends javax.swing.JFrame {
         new MenegeCharity().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    new AdminUser().setVisible(true);
+    this.dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

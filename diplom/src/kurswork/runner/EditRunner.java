@@ -88,15 +88,7 @@ public class EditRunner extends javax.swing.JFrame {
             Country = rs.getString(5);
             blob = rs.getBlob(6);
             drTF.setText(DOB);
-            try {
-                image1 = blob.getBytes(1, (int) blob.length());
-                ImageIcon image = new ImageIcon(image1);
-                ImageIcon.setIcon(ResizeImage(image));
-//ImageIcon.setIcon(image);
-            } catch (Exception ex) {
-                System.out.print("Ошибка с картинкой");
-                ImageIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/foto.png")));
-            }
+
             rs.close();
             rs = stmt.executeQuery("select * from user where Email = '" + MainClass.emailR + "'");
             rs.next();
@@ -118,6 +110,15 @@ public class EditRunner extends javax.swing.JFrame {
           
             if (Gender.equals("Male"))
                     {genderCB.setSelectedItem("Мужской");}else{genderCB.setSelectedItem("Женский");}
+                        try {
+                image1 = blob.getBytes(1, (int) blob.length());
+                ImageIcon image = new ImageIcon(image1);
+                ImageIcon.setIcon(ResizeImage(image));
+//ImageIcon.setIcon(image);
+            } catch (Exception ex) {
+                System.out.print("Ошибка с картинкой");
+                ImageIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/foto.png")));
+            }
         } catch (Exception ex) {
             System.err.println(ex);
             System.out.println("тут?");
@@ -353,7 +354,11 @@ public class EditRunner extends javax.swing.JFrame {
         passL3.setForeground(new java.awt.Color(80, 80, 80));
         passL3.setText("Фамилия:");
         mainP.add(passL3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, -1, -1));
+
+        namerunTF.setFont(MainClass.fontB);
         mainP.add(namerunTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 170, -1));
+
+        surnamerunTF.setFont(MainClass.fontB);
         mainP.add(surnamerunTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, 170, -1));
 
         passL4.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
@@ -378,6 +383,7 @@ public class EditRunner extends javax.swing.JFrame {
         mainP.add(emailerrorL, new org.netbeans.lib.awtextra.AbsoluteConstraints(395, 187, 32, 21));
 
         genderCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Мужской", "Женский"}));
+        genderCB.setFont(MainClass.fontB);
         genderCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 genderCBActionPerformed(evt);
@@ -386,6 +392,7 @@ public class EditRunner extends javax.swing.JFrame {
         mainP.add(genderCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 120, -1));
 
         countryCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
+        countryCB.setFont(MainClass.fontB);
         countryCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 countryCBActionPerformed(evt);
@@ -397,6 +404,7 @@ public class EditRunner extends javax.swing.JFrame {
         drTF.setText(null);
         */
         mainP.add(drTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 374, 100, 31));
+        drTF.setFont(MainClass.fontB);
 
         nameL1.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         nameL1.setForeground(new java.awt.Color(80, 80, 80));
@@ -440,7 +448,11 @@ public class EditRunner extends javax.swing.JFrame {
 
         ImageIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/foto.jpg"))); // NOI18N
         mainP.add(ImageIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 370, 190));
+
+        pas1TF.setFont(MainClass.fontB);
         mainP.add(pas1TF, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 390, 170, -1));
+
+        pas2TF.setFont(MainClass.fontB);
         mainP.add(pas2TF, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 430, 170, -1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -519,7 +531,7 @@ public class EditRunner extends javax.swing.JFrame {
             pw2 = pas2TF.getText();
             name = namerunTF.getText();
             surname = surnamerunTF.getText();
-            if (length(pw1) > 6) {
+            if (length(pw1) >=6 ) {
                 String str2 = pw1.toLowerCase();
                 checkpas = pw1.equals(str2);
                 if (checkpas == false) {

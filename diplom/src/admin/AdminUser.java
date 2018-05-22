@@ -20,6 +20,7 @@ import kurswork.MainClass;
 public class AdminUser extends javax.swing.JFrame {
 
     public static String Email = null;
+    
     public AdminUser() {
         super("&&&");
         initComponents();{DefaultTableModel dtm = getDataUser();
@@ -112,6 +113,7 @@ public class AdminUser extends javax.swing.JFrame {
         editB = new javax.swing.JButton();
         findTF = new javax.swing.JTextField();
         findB = new javax.swing.JButton();
+        addB = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -132,6 +134,11 @@ public class AdminUser extends javax.swing.JFrame {
         backB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         backB.setForeground(new java.awt.Color(80, 80, 80));
         backB.setText("Назад");
+        backB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout headPLayout = new javax.swing.GroupLayout(headP);
         headP.setLayout(headPLayout);
@@ -213,12 +220,22 @@ public class AdminUser extends javax.swing.JFrame {
             }
         });
 
+        addB.setBackground(MainClass.greenColor);
+        addB.setText("Добавить нового пользователя");
+        addB.setFont(MainClass.fontB);
+        addB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPLayout = new javax.swing.GroupLayout(mainP);
         mainP.setLayout(mainPLayout);
         mainPLayout.setHorizontalGroup(
             mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(dawnP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(headP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(mainPLayout.createSequentialGroup()
                 .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPLayout.createSequentialGroup()
@@ -226,13 +243,14 @@ public class AdminUser extends javax.swing.JFrame {
                         .addComponent(nameL))
                     .addGroup(mainPLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(editB)
+                        .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(addB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(editB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(findTF, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41)
                         .addComponent(findB, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         mainPLayout.setVerticalGroup(
             mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +258,9 @@ public class AdminUser extends javax.swing.JFrame {
                 .addComponent(headP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(nameL)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addComponent(addB)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editB)
                     .addComponent(findTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,8 +286,10 @@ public class AdminUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBActionPerformed
-    Email = (String) userT.getValueAt(userT.getSelectedRow(), 3);
-    
+    Email = (String) userT.getValueAt(userT.getSelectedRow(), 2);
+        System.out.println(Email);
+    new EditUser().setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_editBActionPerformed
 
     private void findBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findBActionPerformed
@@ -279,6 +301,16 @@ public class AdminUser extends javax.swing.JFrame {
         
     // TODO add your handling code here:
     }//GEN-LAST:event_findBActionPerformed
+
+    private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
+new MenuAdmin().setVisible(true);
+this.dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_backBActionPerformed
+
+    private void addBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBActionPerformed
+new RegUser().setVisible(true);
+this.dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_addBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -317,6 +349,7 @@ public class AdminUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addB;
     private javax.swing.JButton backB;
     private javax.swing.JPanel dawnP;
     private javax.swing.JButton editB;
