@@ -1,6 +1,10 @@
 
 package kurswork;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 import kurswork.runner.RunnerW;
 import kurswork.sponsor.Sponsor;
 
@@ -30,6 +34,7 @@ public class HomeF extends javax.swing.JFrame {
         infoB = new javax.swing.JButton();
         loginB = new javax.swing.JButton();
         runnerWinB1 = new javax.swing.JButton();
+        testB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -153,6 +158,17 @@ public class HomeF extends javax.swing.JFrame {
         });
         jPanel1.add(runnerWinB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(222, 237, 344, 69));
 
+        testB.setBackground(new java.awt.Color(0, 144, 62));
+        testB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        testB.setForeground(new java.awt.Color(235, 235, 235));
+        testB.setText("Test connection");
+        testB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testBActionPerformed(evt);
+            }
+        });
+        jPanel1.add(testB, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 493, 150, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,6 +202,18 @@ public class HomeF extends javax.swing.JFrame {
         new RunnerW().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_runnerWinB1ActionPerformed
+
+    private void testBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testBActionPerformed
+try
+{
+    Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.USER);
+    JOptionPane.showMessageDialog(this, "Соединение с базой данных установлено", "УсПеШнОе СоЕдИнЕнИе", JOptionPane.INFORMATION_MESSAGE);
+           
+}catch(Exception ex)
+{
+    JOptionPane.showMessageDialog(this, "Соединение с базой данных не установлено", "ОшИбКа", JOptionPane.ERROR_MESSAGE);
+}        // TODO add your handling code here:
+    }//GEN-LAST:event_testBActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -231,5 +259,6 @@ public class HomeF extends javax.swing.JFrame {
     private javax.swing.JButton loginB;
     private javax.swing.JButton runnerWinB1;
     private javax.swing.JButton sponsorWinB;
+    private javax.swing.JButton testB;
     // End of variables declaration//GEN-END:variables
 }
