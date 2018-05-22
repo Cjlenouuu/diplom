@@ -1,4 +1,4 @@
-//добавить 
+//добавить или редактировать
 package admin;
 
 import java.awt.Image;
@@ -365,8 +365,8 @@ public class AddOrEditCharity extends javax.swing.JFrame {
                         + "', `CharityDescription` = `" + chrityDesc + "`,`CharityLogo` = `" + chrityLogo 
                         + "`,`CharityLogoFile` = ? WHERE `charity`.`CharityId` = " + charityID + ";";//Пока не ясно как вставлять переметр ))))
                 try {
-                PreparedStatement pstm = con.prepareStatement(sql);
                 InputStream file = new FileInputStream(new File(s));
+                PreparedStatement pstm = con.prepareStatement(sql);
                 pstm.setBlob(1,  file);
                 pstm.executeUpdate();
                 } catch (Exception e) {
