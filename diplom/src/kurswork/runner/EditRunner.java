@@ -178,9 +178,6 @@ public class EditRunner extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("kurs?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
-        genderQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT g FROM Gender g");
-        genderList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : genderQuery.getResultList();
         jPanel1 = new javax.swing.JPanel();
         mainP = new javax.swing.JPanel();
         danwP = new javax.swing.JPanel();
@@ -677,10 +674,7 @@ public class EditRunner extends javax.swing.JFrame {
     private javax.swing.JPanel danwP;
     private javax.swing.JTextField drTF;
     private javax.swing.JLabel emailerrorL;
-    private javax.persistence.EntityManager entityManager;
     private javax.swing.JComboBox<String> genderCB;
-    private java.util.List<kurswork.Gender> genderList;
-    private javax.persistence.Query genderQuery;
     private javax.swing.JPanel headP;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
