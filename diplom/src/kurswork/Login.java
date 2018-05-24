@@ -264,7 +264,7 @@ public class Login extends javax.swing.JFrame {
           pw = passWordTF.getText();
           String Query = "SELECT Email, Password, RoleId FROM user where Email like '" + eMail + "' and Password like '" + pw + "';";
              
-                com.mysql.jdbc.Connection con = (com.mysql.jdbc.Connection) DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+                Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(Query);
                 rs.next();
