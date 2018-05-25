@@ -91,7 +91,6 @@ public static String charityNum;
         titelL7 = new javax.swing.JLabel();
         titelL8 = new javax.swing.JLabel();
         charityCB = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
