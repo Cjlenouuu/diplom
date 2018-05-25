@@ -6,10 +6,11 @@
 package kurswork;
 
 import admin.MenuAdmin;
-import java.io.IOException;
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 import kurswork.coord.Coordinator;
 import kurswork.runner.MenuRunner;
 
@@ -274,7 +275,8 @@ public class Login extends javax.swing.JFrame {
                 System.out.println(email);
                 System.out.println(passWord);
                 System.out.println(roleId);
-                
+        if (pw.equals(passWord))
+        {
             switch (roleId) {
                 case "C":{
                     new Coordinator().setVisible(true);
@@ -295,11 +297,12 @@ public class Login extends javax.swing.JFrame {
                     this.dispose();
                     break;
                 }
-            }    
+            }
+        }else{JOptionPane.showMessageDialog(this, "Не правильный логин или пароль", "Ошибка доступа", JOptionPane.ERROR_MESSAGE);}
                 
         } catch(Exception e) {
           System.out.println("Пароль не тот");
-          badPassL.setText("Неверный логин или пароль!!!");
+          JOptionPane.showMessageDialog(this, "Не правильный логин или пароль", "Ошибка доступа", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_loginBActionPerformed
 

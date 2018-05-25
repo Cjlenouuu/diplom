@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 import kurswork.MainClass;
 

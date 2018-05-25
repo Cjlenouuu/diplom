@@ -8,7 +8,9 @@ package kurswork.runner;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -20,24 +22,41 @@ import scripts.CharityDB;
 
 
 public class RegOnMar extends javax.swing.JFrame {
-CharityDB c = new CharityDB();    
+ 
 int sum = 0 ;
 boolean error = false;
-public static int charityNum;
+public static String charityNum;
+   // public static int sum;
     /**
      * 
      * Creates new form Wablon
      */
     public RegOnMar() {
         super("Регистрация");
-        try {
-            c.testDatabase();
-        } catch (SQLException ex) {
-            Logger.getLogger(Reg.class.getName()).log(Level.SEVERE, null, ex);
+        initComponents();{
+        getCharity();
         }
-        initComponents();
+        setLocationRelativeTo(null);
     }
-
+    private void getCharity()
+    {
+         try {
+                Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery("select CharityName from charity;");
+                while (rs.next()) {
+                    String str = rs.getString("CharityName");    
+                    charityCB.addItem(str);
+                }
+                rs.close();
+                stmt.close();
+            con.close();
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+             System.out.println("?");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -258,13 +277,19 @@ public static int charityNum;
         titelL8.setText("Взнос:");
         mainP.add(titelL8, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 440, -1, -1));
 
-        charityCB.setModel(new javax.swing.DefaultComboBoxModel<>(c.charity));
         charityCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 charityCBActionPerformed(evt);
             }
         });
         mainP.add(charityCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 440, 170, 30));
+
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        mainP.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 440, 30, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -332,6 +357,16 @@ new MenuRunner().setVisible(true);
     this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_backBActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        charityNum = (String) charityCB.getSelectedItem();
+        System.out.println(charityNum);
+   
+            new SponsorInfo().setVisible(true);
+            // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     public static void main(String args[]) {
       
@@ -375,6 +410,7 @@ new MenuRunner().setVisible(true);
     private javax.swing.JPanel headP;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel mainP;
     private javax.swing.JCheckBox smallmCB;
