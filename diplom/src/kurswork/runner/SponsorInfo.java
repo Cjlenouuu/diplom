@@ -1,22 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package kurswork.runner;
-import java.io.IOException;
-import kurswork.runner.RegOnMar;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import java.lang.*;
+import javax.swing.JOptionPane;
 import kurswork.MainClass;
 
 
@@ -29,28 +21,53 @@ public class SponsorInfo extends javax.swing.JFrame {
   String charName;
   String charDes;
   String charLog;
-        /**
-     * Creates new form Wablon
-     */
-    public SponsorInfo() throws IOException, SQLException {
-super("Информация о благотворительной организации");
-          Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
-           
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery("select CharityName, CharityDescription, CharityLogo from charity where CharityId = '" + RegOnMar.charityNum + "';");
-                rs.next();
-                 charName = rs.getString("CharityName");
-                 charDes = rs.getString("CharityDescription");
-                 charLog = rs.getString("CharityLogo");
-                rs.close();
-                stmt.close();
-            con.close();
-        
-                        
+
+    public SponsorInfo() {
+        super("Информация о благотворительной организации");
+        System.out.println(RegOnMar.charityNum);          
+              
         initComponents();
+        {getData(); }
         setLocationRelativeTo(null);
     }
 
+    
+    private void getData()
+    {
+        System.out.println(RegOnMar.charityNum);
+          Connection con;
+      try {
+          con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);    
+          Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery("select * from charity where CharityName like '%" + RegOnMar.charityNum + "%';");
+                while(rs.next()){
+                 charName = rs.getString(2);
+                 charDes = rs.getString(3);
+                 charLog = rs.getString(4);
+                    System.out.println(charName);
+                    //System.out.println(charDes);
+                    System.out.println(charLog);
+                     infoTA.append(charDes);
+                     ImageIcon icon = new ImageIcon("/materials/charityLogo/arise-logo.png");
+                    iconLogL.setIcon(icon);
+                     jLabel2.setText(charName);
+                }
+               
+                
+               // try{
+                    
+                //}catch(Exception ex){System.out.print("Картинка");System.err.println(ex);;}
+                rs.close();
+                stmt.close();
+            con.close();
+          
+      } catch (SQLException ex) {
+          Logger.getLogger(SponsorInfo.class.getName()).log(Level.SEVERE, null, ex);
+          System.err.print(ex);
+          System.out.println("?");
+          JOptionPane.showMessageDialog(this, "тут?", "", JOptionPane.ERROR_MESSAGE);
+      }         
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,15 +77,12 @@ super("Информация о благотворительной организ
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jCheckBox1 = new javax.swing.JCheckBox();
         mainP = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        iconLog = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         infoTA = new javax.swing.JTextArea();
-
-        jCheckBox1.setText("jCheckBox1");
+        iconLogL = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 400));
@@ -79,23 +93,17 @@ super("Информация о благотворительной организ
         mainP.setBackground(new java.awt.Color(253, 193, 0));
         mainP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/cross-icon - копия.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        mainP.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(786, 11, 45, 45));
+        mainP.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 45, 45));
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(80, 80, 80));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText(charName);
         mainP.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 392, 55));
-
-        iconLog.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iconLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/charityLogo/" + charLog + "")));
-        mainP.add(iconLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, 190, 130));
 
         infoTA.setEditable(false);
         infoTA.setBackground(new java.awt.Color(253, 193, 0));
@@ -103,12 +111,12 @@ super("Информация о благотворительной организ
         infoTA.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         infoTA.setLineWrap(true);
         infoTA.setRows(5);
-        infoTA.append(charDes);
         jScrollPane2.setViewportView(infoTA);
 
         mainP.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 560, 180));
+        mainP.add(iconLogL, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 26, 400, 170));
 
-        getContentPane().add(mainP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 400));
+        getContentPane().add(mainP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -150,22 +158,17 @@ super("Информация о благотворительной организ
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
+               
                     new SponsorInfo().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(SponsorInfo.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(SponsorInfo.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel iconLog;
+    private javax.swing.JLabel iconLogL;
     private javax.swing.JTextArea infoTA;
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel mainP;

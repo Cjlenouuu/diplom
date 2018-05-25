@@ -1,7 +1,7 @@
 
 package kurswork;
 
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 import kurswork.runner.RunnerW;
