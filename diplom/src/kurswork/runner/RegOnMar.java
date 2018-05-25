@@ -72,7 +72,6 @@ public static int charityNum;
         titelL7 = new javax.swing.JLabel();
         titelL8 = new javax.swing.JLabel();
         charityCB = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -267,14 +266,6 @@ public static int charityNum;
         });
         mainP.add(charityCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 440, 170, 30));
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/вопрос.png"))); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        mainP.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 440, 30, 30));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -336,18 +327,6 @@ VALUES ('5192', '2017-10-09 09:31:22', 'C', '1', '20.00', '11', '100');*/
         String a = (String) charityCB.getSelectedItem();//присваивает значение поля переменной
     }//GEN-LAST:event_charityCBActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-charityNum = charityCB.getSelectedIndex()+1;
-    try {
-        new SponsorInfo().setVisible(true);
-// TODO add your handling code here:
-    } catch (IOException ex) {
-        Logger.getLogger(RegOnMar.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (SQLException ex) {
-        Logger.getLogger(RegOnMar.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
 new MenuRunner().setVisible(true);
     this.dispose();        // TODO add your handling code here:
@@ -396,7 +375,6 @@ new MenuRunner().setVisible(true);
     private javax.swing.JPanel headP;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    public javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel mainP;
     private javax.swing.JCheckBox smallmCB;

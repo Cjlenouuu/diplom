@@ -7,6 +7,7 @@ import java.awt.Font;
 public class MainClass {
 
     public static String emailR; //email бегуна можно привести к строкам
+    public static int emailS; //email спонсора можно привести к строкам
     public static String runner;
     public static String sum;
     public static Color greenColor = new java.awt.Color(0, 144, 62);
@@ -16,6 +17,11 @@ public class MainClass {
     public static final String USER = "root";
     public static final String URL = "jdbc:mysql://localhost:3306/dip";//домашнее подключение localhost:3306/dip
     public static final String PASS = "";//Пароль для подключения
+    
+    
+    
+    
+    
 
 
     public String view;

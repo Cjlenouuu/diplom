@@ -4,26 +4,35 @@
 
 package kurswork.sponsor;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFormattedTextField;
 import scripts.ConDB;
 import javax.swing.JFrame;
 import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
 import kurswork.HomeF;
 import kurswork.MainClass;
 import static oracle.jrockit.jfr.events.Bits.length;
 
 
 public class Sponsor extends JFrame {
+    
         int money=0,money1=0;
+        int regId = 0, amount = 0;
+        
+        
         String red;
         String[] charaty = new String[5100];
+        
+
+        
         ConDB r = new ConDB();
-        
-        
-    
+
     public Sponsor() {
         super("Спонор бегуна");
             try {
@@ -46,6 +55,7 @@ public class Sponsor extends JFrame {
         headP = new javax.swing.JPanel();
         titelL = new javax.swing.JLabel();
         backB = new javax.swing.JButton();
+        logoutB = new javax.swing.JButton();
         dawnP = new javax.swing.JPanel();
         timerL = new javax.swing.JLabel();
         nameL = new javax.swing.JLabel();
@@ -59,40 +69,8 @@ public class Sponsor extends JFrame {
         plusB = new javax.swing.JButton();
         runInfoCB = new javax.swing.JComboBox<>();
         runnerL = new javax.swing.JLabel();
-        yourNameL = new javax.swing.JLabel();
-        sponsorNameTF = new javax.swing.JTextField();
-        cardL = new javax.swing.JLabel();
-        cardTF = new javax.swing.JTextField();
-        numerCardL = new javax.swing.JLabel();
-        MaskFormatter mf = null;
-        try{
-            mf = new MaskFormatter("################");
-        } catch (ParseException e) {e.printStackTrace();}
-        numerCardTF = new javax.swing.JFormattedTextField(mf);
-        timeL = new javax.swing.JLabel();
-        cvcL = new javax.swing.JLabel();
-        MaskFormatter mf3 = null;
-        try {
-            mf3 = new MaskFormatter("###");
-        } catch (ParseException e) {e.printStackTrace();}
-        cvcTF = new javax.swing.JFormattedTextField(mf3);
-        MaskFormatter mf1 = null;
-        try {
-            mf1 = new MaskFormatter("##");
-        } catch (ParseException e) {e.printStackTrace();}
-        monthTF = new javax.swing.JFormattedTextField(mf1);
         toPayB = new javax.swing.JButton();
         cancelB = new javax.swing.JButton();
-        errorL1 = new javax.swing.JLabel();
-        errorL2 = new javax.swing.JLabel();
-        errorL3 = new javax.swing.JLabel();
-        errorL4 = new javax.swing.JLabel();
-        errorL5 = new javax.swing.JLabel();
-        MaskFormatter mf2 = null;
-        try{
-            mf2 = new MaskFormatter("####");
-        } catch (ParseException e) {e.printStackTrace();}
-        yearTF = new javax.swing.JFormattedTextField(mf2);
         charityL = new javax.swing.JLabel();
         nameL4 = new javax.swing.JLabel();
 
@@ -122,6 +100,16 @@ public class Sponsor extends JFrame {
             }
         });
 
+        logoutB.setBackground(new java.awt.Color(253, 193, 0));
+        logoutB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        logoutB.setForeground(new java.awt.Color(80, 80, 80));
+        logoutB.setText("Выйти");
+        logoutB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout headPLayout = new javax.swing.GroupLayout(headP);
         headP.setLayout(headPLayout);
         headPLayout.setHorizontalGroup(
@@ -131,7 +119,9 @@ public class Sponsor extends JFrame {
                 .addComponent(backB, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(142, 142, 142)
                 .addComponent(titelL)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                .addComponent(logoutB, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
         );
         headPLayout.setVerticalGroup(
             headPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,7 +129,8 @@ public class Sponsor extends JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(headPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(backB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(titelL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(titelL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(logoutB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -178,29 +169,29 @@ public class Sponsor extends JFrame {
         mainP.add(nameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(287, 88, -1, 32));
 
         nameL1.setBackground(new java.awt.Color(36, 29, 112));
-        nameL1.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
+        nameL1.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         nameL1.setForeground(new java.awt.Color(80, 80, 80));
-        nameL1.setText("Информация о спонсоре");
-        mainP.add(nameL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 168, -1, -1));
+        nameL1.setText("Выберите бегуна");
+        mainP.add(nameL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
 
         nameL2.setBackground(new java.awt.Color(36, 29, 112));
         nameL2.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
         nameL2.setForeground(new java.awt.Color(80, 80, 80));
         nameL2.setText("организация бегуна");
-        mainP.add(nameL2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, -1, -1));
+        mainP.add(nameL2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 350, -1, -1));
 
         nameL3.setBackground(new java.awt.Color(36, 29, 112));
         nameL3.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
         nameL3.setForeground(new java.awt.Color(80, 80, 80));
         nameL3.setText("Сумма пожертвования");
-        mainP.add(nameL3, new org.netbeans.lib.awtextra.AbsoluteConstraints(487, 275, -1, -1));
+        mainP.add(nameL3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, -1, -1));
 
         moneyL.setBackground(new java.awt.Color(36, 29, 112));
         moneyL.setFont(new java.awt.Font("Century Gothic", 3, 86)); // NOI18N
         moneyL.setForeground(new java.awt.Color(80, 80, 80));
         moneyL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         moneyL.setText("$");
-        mainP.add(moneyL, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 317, 270, 89));
+        mainP.add(moneyL, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 240, 270, 89));
 
         moneyTF.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         moneyTF.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -229,12 +220,12 @@ public class Sponsor extends JFrame {
                 moneyTFActionPerformed(evt);
             }
         });
-        mainP.add(moneyTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 427, 94, -1));
+        mainP.add(moneyTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 380, 94, -1));
 
         errorL.setBackground(new java.awt.Color(36, 29, 112));
         errorL.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         errorL.setForeground(new java.awt.Color(255, 0, 0));
-        mainP.add(errorL, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 464, 293, 21));
+        mainP.add(errorL, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 430, 293, 21));
 
         minusB.setBackground(new java.awt.Color(0, 144, 62));
         minusB.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
@@ -245,7 +236,7 @@ public class Sponsor extends JFrame {
                 minusBActionPerformed(evt);
             }
         });
-        mainP.add(minusB, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 419, 53, -1));
+        mainP.add(minusB, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 370, 53, -1));
 
         plusB.setBackground(new java.awt.Color(0, 144, 62));
         plusB.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
@@ -261,7 +252,7 @@ public class Sponsor extends JFrame {
                 plusBActionPerformed(evt);
             }
         });
-        mainP.add(plusB, new org.netbeans.lib.awtextra.AbsoluteConstraints(716, 419, 59, -1));
+        mainP.add(plusB, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 370, 59, -1));
 
         runInfoCB.setBackground(new java.awt.Color(0, 144, 62));
         runInfoCB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
@@ -272,67 +263,12 @@ public class Sponsor extends JFrame {
                 runInfoCBActionPerformed(evt);
             }
         });
-        mainP.add(runInfoCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 267, 288, -1));
+        mainP.add(runInfoCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 260, 288, -1));
 
         runnerL.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         runnerL.setForeground(new java.awt.Color(80, 80, 80));
         runnerL.setText("Бегун:");
-        mainP.add(runnerL, new org.netbeans.lib.awtextra.AbsoluteConstraints(97, 266, -1, -1));
-
-        yourNameL.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        yourNameL.setForeground(new java.awt.Color(80, 80, 80));
-        yourNameL.setText("Ваше имя:");
-        mainP.add(yourNameL, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 226, -1, -1));
-
-        sponsorNameTF.setBackground(new java.awt.Color(0, 144, 62));
-        sponsorNameTF.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        sponsorNameTF.setForeground(new java.awt.Color(235, 235, 235));
-        mainP.add(sponsorNameTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 223, 262, -1));
-
-        cardL.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        cardL.setForeground(new java.awt.Color(80, 80, 80));
-        cardL.setText("Карта:");
-        mainP.add(cardL, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 318, -1, -1));
-
-        cardTF.setBackground(new java.awt.Color(0, 144, 62));
-        cardTF.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        cardTF.setForeground(new java.awt.Color(235, 235, 235));
-        cardTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cardTFActionPerformed(evt);
-            }
-        });
-        mainP.add(cardTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 315, 264, -1));
-
-        numerCardL.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        numerCardL.setForeground(new java.awt.Color(80, 80, 80));
-        numerCardL.setText("Номер карты#:");
-        mainP.add(numerCardL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 365, -1, -1));
-
-        numerCardTF.setBackground(new java.awt.Color(0, 144, 62));
-        numerCardTF.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        numerCardTF.setForeground(new java.awt.Color(235, 235, 235));
-        mainP.add(numerCardTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 362, 264, -1));
-
-        timeL.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        timeL.setForeground(new java.awt.Color(80, 80, 80));
-        timeL.setText("Срок действия:");
-        mainP.add(timeL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 412, -1, -1));
-
-        cvcL.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        cvcL.setForeground(new java.awt.Color(80, 80, 80));
-        cvcL.setText("CVC:");
-        mainP.add(cvcL, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 459, -1, -1));
-
-        cvcTF.setBackground(new java.awt.Color(0, 144, 62));
-        cvcTF.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        cvcTF.setForeground(new java.awt.Color(235, 235, 235));
-        mainP.add(cvcTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 456, 51, -1));
-
-        monthTF.setBackground(new java.awt.Color(0, 144, 62));
-        monthTF.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        monthTF.setForeground(new java.awt.Color(235, 235, 235));
-        mainP.add(monthTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 409, 40, -1));
+        mainP.add(runnerL, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, -1, -1));
 
         toPayB.setBackground(new java.awt.Color(0, 144, 62));
         toPayB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
@@ -343,7 +279,7 @@ public class Sponsor extends JFrame {
                 toPayBActionPerformed(evt);
             }
         });
-        mainP.add(toPayB, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 494, -1, -1));
+        mainP.add(toPayB, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 490, -1, -1));
 
         cancelB.setBackground(new java.awt.Color(0, 144, 62));
         cancelB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
@@ -354,42 +290,17 @@ public class Sponsor extends JFrame {
                 cancelBActionPerformed(evt);
             }
         });
-        mainP.add(cancelB, new org.netbeans.lib.awtextra.AbsoluteConstraints(635, 494, -1, -1));
-
-        errorL1.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        errorL1.setForeground(new java.awt.Color(255, 0, 0));
-        mainP.add(errorL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 230, 20, 20));
-
-        errorL2.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        errorL2.setForeground(new java.awt.Color(255, 0, 0));
-        mainP.add(errorL2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 320, 20, 20));
-
-        errorL3.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        errorL3.setForeground(new java.awt.Color(255, 0, 0));
-        mainP.add(errorL3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 370, 20, 20));
-
-        errorL4.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        errorL4.setForeground(new java.awt.Color(255, 0, 0));
-        mainP.add(errorL4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 420, 20, 20));
-
-        errorL5.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        errorL5.setForeground(new java.awt.Color(255, 0, 0));
-        mainP.add(errorL5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 460, 20, 20));
-
-        yearTF.setBackground(new java.awt.Color(0, 144, 62));
-        yearTF.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        yearTF.setForeground(new java.awt.Color(235, 235, 235));
-        mainP.add(yearTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 410, 60, -1));
+        mainP.add(cancelB, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 490, 120, -1));
 
         charityL.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         charityL.setForeground(new java.awt.Color(0, 144, 62));
-        mainP.add(charityL, new org.netbeans.lib.awtextra.AbsoluteConstraints(514, 224, 240, 20));
+        mainP.add(charityL, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 400, 240, 20));
 
         nameL4.setBackground(new java.awt.Color(36, 29, 112));
         nameL4.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
         nameL4.setForeground(new java.awt.Color(80, 80, 80));
         nameL4.setText("Благотворительная");
-        mainP.add(nameL4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 160, -1, -1));
+        mainP.add(nameL4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -482,69 +393,41 @@ moneyTF.setText(""+money);
     }//GEN-LAST:event_moneyTFFocusLost
 
     private void runInfoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runInfoCBActionPerformed
+
         int numRunner = (Integer) runInfoCB.getSelectedIndex();    
         charityL.setText(charaty[numRunner]);
+        regId = r.registrationId[numRunner];
+        System.out.println(r.registrationId[numRunner]);
     }//GEN-LAST:event_runInfoCBActionPerformed
 
     private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
-        new HomeF().setVisible(true);
+        new SponsorMenu().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBActionPerformed
 
     private void cancelBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBActionPerformed
-        new HomeF().setVisible(true);
+        new SponsorMenu().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_cancelBActionPerformed
 
     private void toPayBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toPayBActionPerformed
-        int mon = 0, y = 0, cvcI = 0;
-        long numCardI = 0; 
+            try {
+                r.insert(regId, MainClass.emailS, money);
+            } catch (IOException ex) {
+                Logger.getLogger(Sponsor.class.getName()).log(Level.SEVERE, null, ex);
+            }
         
-        boolean go1 = false, go2 = false, go3 = false, go4 = false, go5 = false; 
-        
-        String name = sponsorNameTF.getText();
-        String card = cardTF.getText();
-        String numerCard = numerCardTF.getText();
-        String month = monthTF.getText();
-        String year = yearTF.getText();
-        String cvc = cvcTF.getText();
         MainClass.runner = (String) runInfoCB.getSelectedItem();
         MainClass.sum = moneyTF.getText();
         int runner = (Integer) runInfoCB.getSelectedIndex(); 
         
-        try {
-        numCardI = Long.parseLong(numerCard);
-        } catch (Exception e) {System.out.println("error card");} 
-        try {
-            cvcI = Integer.parseInt(cvc);
-        } catch (Exception e) {System.out.println("error cvc");}    
-        try {
-            mon = Integer.parseInt(month);
-            y = Integer.parseInt(year);
-        } catch (Exception e) {System.out.println("error month or year");}
-        
-        if (length(name) > 0) {errorL1.setText(""); go1 = true;} else {errorL1.setText("*"); go1 = false;}
-        if (length(card) > 0) {errorL2.setText(""); go2 = true;} else {errorL2.setText("*"); go2 = false;}
-        
-        if (y == 2017)  { 
-        if ((7 < mon) & (mon < 13))  {errorL4.setText(""); go3 = true;}      
-            } else {
-        if ((0 < mon) & (mon < 13))  {errorL4.setText(""); go3 = true;} else {errorL4.setText("*"); go3 = false;}
-        if (y > 2017)  {errorL4.setText(""); go3 = true;} else {errorL4.setText("*"); go3 = false;}}
-        if (numCardI > 0) {errorL3.setText(""); go4 = true;} else {errorL3.setText("*"); go4 = false;}
-        if (cvcI > 0) {errorL5.setText(""); go5 = true;} else {errorL5.setText("*"); go5 = false;}
-        
-        
-           
-        if ((go1 == true) & (go2 == true) & (go3 == true) & (go4 == true) & (go5 == true)) {
-            new Thanks().setVisible(true);this.dispose();
-        }
-        
+        new Thanks().setVisible(true);this.dispose();     
     }//GEN-LAST:event_toPayBActionPerformed
 
-    private void cardTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cardTFActionPerformed
+    private void logoutBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBActionPerformed
+        new HomeF().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_logoutBActionPerformed
 
     
     public static void main(String args[]) throws SQLException {
@@ -586,42 +469,27 @@ moneyTF.setText(""+money);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backB;
     private javax.swing.JButton cancelB;
-    private javax.swing.JLabel cardL;
-    private javax.swing.JTextField cardTF;
     private javax.swing.JLabel charityL;
-    private javax.swing.JLabel cvcL;
-    private javax.swing.JTextField cvcTF;
     private javax.swing.JPanel dawnP;
     private javax.swing.JLabel errorL;
-    private javax.swing.JLabel errorL1;
-    private javax.swing.JLabel errorL2;
-    private javax.swing.JLabel errorL3;
-    private javax.swing.JLabel errorL4;
-    private javax.swing.JLabel errorL5;
     private javax.swing.JPanel headP;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JButton logoutB;
     private javax.swing.JPanel mainP;
     private javax.swing.JButton minusB;
     private javax.swing.JLabel moneyL;
     private javax.swing.JTextField moneyTF;
-    private javax.swing.JTextField monthTF;
     private javax.swing.JLabel nameL;
     private javax.swing.JLabel nameL1;
     private javax.swing.JLabel nameL2;
     private javax.swing.JLabel nameL3;
     private javax.swing.JLabel nameL4;
-    private javax.swing.JLabel numerCardL;
-    private javax.swing.JTextField numerCardTF;
     private javax.swing.JButton plusB;
     private javax.swing.JComboBox<String> runInfoCB;
     private javax.swing.JLabel runnerL;
-    private javax.swing.JTextField sponsorNameTF;
-    private javax.swing.JLabel timeL;
     private javax.swing.JLabel timerL;
     private javax.swing.JLabel titelL;
     private javax.swing.JButton toPayB;
-    private javax.swing.JTextField yearTF;
-    private javax.swing.JLabel yourNameL;
     // End of variables declaration//GEN-END:variables
 
     private String getText() {
