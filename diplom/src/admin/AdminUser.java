@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import kurswork.MainClass;
 
@@ -23,7 +24,8 @@ public class AdminUser extends javax.swing.JFrame {
     public AdminUser() {
         super("&&&");
         initComponents();{DefaultTableModel dtm = getDataUser();
-        userT.setModel(dtm);}
+        userT.setModel(dtm);userT.setAutoCreateRowSorter(true);userT.setFont(MainClass.fontB);
+    }
         setLocationRelativeTo(null);
     }
     
@@ -285,10 +287,12 @@ public class AdminUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBActionPerformed
-    Email = (String) userT.getValueAt(userT.getSelectedRow(), 2);
+    try{
+        Email = (String) userT.getValueAt(userT.getSelectedRow(), 2);
         System.out.println(Email);
     new EditUser().setVisible(true);
     this.dispose();
+    }catch(Exception ex){JOptionPane.showMessageDialog(this, "Вы не выбрали пользователя для форматирования", "Ошибка", JOptionPane.WARNING_MESSAGE);}
     }//GEN-LAST:event_editBActionPerformed
 
     private void findBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findBActionPerformed

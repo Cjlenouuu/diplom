@@ -5,7 +5,14 @@ import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import java.text.ParseException;
 import static oracle.jrockit.jfr.events.Bits.length;
 import java.util.logging.Level;
@@ -51,9 +58,9 @@ public class EditUser extends javax.swing.JFrame {
     }
 
     private void getCountry() {
-        Connection con;
+       
         try {
-            con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+            Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select distinct(CountryName) from country;");
             while (rs.next()) {
