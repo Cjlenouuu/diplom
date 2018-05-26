@@ -277,40 +277,38 @@ public class BMIM extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void maleBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maleBActionPerformed
-manP.setVisible(true);
-womanP.setVisible(false);
-
+        manP.setVisible(true);
+        womanP.setVisible(false);
     }//GEN-LAST:event_maleBActionPerformed
 
     private void heightTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_heightTFActionPerformed
-  view =heightTF.getText();
-  height = Integer.parseInt(view);
-  view = null;
-  // TODO add your handling code here:
+        view =heightTF.getText();
+        height = Integer.parseInt(view);
+        view = null;
     }//GEN-LAST:event_heightTFActionPerformed
 
     private void weightTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weightTFActionPerformed
-view =weightTF.getText();
-  weight = Integer.parseInt(view);
-  view = null;
+        view =weightTF.getText();
+        weight = Integer.parseInt(view);
+        view = null;
     }//GEN-LAST:event_weightTFActionPerformed
 
     private void resultBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultBActionPerformed
-  view =heightTF.getText();
-  height = Integer.parseInt(view);
-  view = null;
-  view =weightTF.getText();
-  weight = Integer.parseInt(view);
-  view = null;
+        view =heightTF.getText();
+        height = Integer.parseInt(view);
+        view = null;
+        view =weightTF.getText();
+        weight = Integer.parseInt(view);
+        view = null;
         double bmi = weight / ((height/100)*(height/100));
-resultL.setText(String.format("%(.2f", bmi));// TODO add your handling code here:
- view = null;
- int switchVariable = 0;
+        resultL.setText(String.format("%(.2f", bmi));// TODO add your handling code here:
+        view = null;
+        int switchVariable = 0;
         
         if( bmi <=18.5) switchVariable = 0;
-        else if( bmi>=18.5 && bmi <=24.9) switchVariable = 1;
-        else if( bmi>24.9 && bmi <=29.9) switchVariable = 2; 
-        else if( bmi>29.9) switchVariable = 3; 
+            else if( bmi>=18.5 && bmi <=24.9) switchVariable = 1;
+            else if( bmi>24.9 && bmi <=29.9) switchVariable = 2; 
+            else if( bmi>29.9) switchVariable = 3; 
         switch (switchVariable) 
         { 
             case 0: ResultIconL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/bmi-underweight-icon.png")));resultnameL.setText("Недостаточный вес"); break;

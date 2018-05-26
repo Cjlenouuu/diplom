@@ -1,6 +1,7 @@
 //Добавить перенос текста в таблице ыфваыфаыф
 package admin;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -309,6 +310,9 @@ public class MenegeCharity extends javax.swing.JFrame {
             }           
         };
         String query = "SELECT * FROM `charity`;";
+        Blob blob = null; // Создаём переменную BLOB в которую занесем данные из БД
+        byte[] image1 = null; //Создаем массиф в который занесем байт код картинки
+        
         dtm.addColumn("Логтип");
         dtm.addColumn("Название");
         
@@ -317,12 +321,14 @@ public class MenegeCharity extends javax.swing.JFrame {
             Connection con = DriverManager.getConnection(MainClass.URL,MainClass.USER, MainClass.PASS);
             Statement stmt =con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                String logoS = rs.getString(4);
-                String name = rs.getString(2);
+            while (rs.next()) {  
+                String name = rs.getString(2);//Берем из БД название
                 
-                //ImageIcon logoI = new ImageIcon("src/materials/charityLogo/" + logoS);
-                dtm.addRow(new Object[] {new ImageIcon("src/materials/charityLogo/" + logoS), name});
+                blob = rs.getBlob(5); //Получаем данные блоб из таблици 
+                image1 = blob.getBytes(1, (int) blob.length()); //Делаем байт код и заносим в массив
+                ImageIcon image = new ImageIcon(image1); //Присваиваем выбранный массиф иконке 
+                              
+                dtm.addRow(new Object[] {image, name});
             }
         rs.close();stmt.close();con.close();
         return dtm;  

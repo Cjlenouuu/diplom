@@ -1,4 +1,4 @@
-//добавить или редактировать ыпвапвпвпввыап
+//добавить или редактировать 
 package admin;
 
 import java.awt.Image;
@@ -38,7 +38,7 @@ public class AddOrEditCharity extends javax.swing.JFrame {
         {if (nameCharity != null) { //Проверка на то что должна форма: редактировать или добавлять 
             nameL.setText("Редактирование благотварительной организации");
             try{
-            getDataForCharity(nameCharity);//
+            getDataForCharity(nameCharity); //
             edit = true;
             }catch(Exception ex){System.out.print(ex);}
         } else {
@@ -351,28 +351,49 @@ public class AddOrEditCharity extends javax.swing.JFrame {
         try {
             Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
             Statement stm = con.createStatement();
-            ResultSet rs;// = stm.executeQuery(sql);
-            String sql;
+            String sql = "";
             String chrityName = nameCharityTF.getText();
             String chrityDesc = descCharityTA.getText();
             String chrityLogo = logoCharityTF.getText();
-            
-            
+            System.out.println(s);
             
             if (edit == true) { //Проверка: что необходимо сделать редактировать или добавить, если истина, то редактирование 
                 //Редактирование
-                sql = "UPDATE `charity` SET `CharityName` = '" + chrityName 
-                        + "', `CharityDescription` = `" + chrityDesc + "`,`CharityLogo` = `" + chrityLogo 
-                        + "`,`CharityLogoFile` = ? WHERE `charity`.`CharityId` = " + charityID + ";";//Пока не ясно как вставлять переметр ))))
+                if (s != null)  { //Проверка был ли изменен логотип
+                    //Логотип изменен правим все
+                sql = "UPDATE charity SET CharityName = '" + chrityName 
+                        + "', CharityDescription = '" + chrityDesc + "',CharityLogo = '" + chrityLogo 
+                        + "',CharityLogoFile = ? WHERE charity.CharityId = " + charityID + ";";//необходимо разделить на 2 запроса первый текст другой блоб
+                    System.out.println(sql);
                 try {
-                InputStream file = new FileInputStream(new File(s));
-                PreparedStatement pstm = con.prepareStatement(sql);
-                pstm.setBlob(1,  file);
-                pstm.executeUpdate();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.out.println("djn");
+                    InputStream file = new FileInputStream(new File(s));//Присваиваем переменой file путь к лого
+                    PreparedStatement pstm = con.prepareStatement(sql);
+                    pstm.setBlob(1,  file);
+                    pstm.executeUpdate();
+                    pstm.close();
+                    stm.close();
+                    con.close();
+                    } catch (SQLException sqle) {
+                        System.err.println(sqle);
+                        System.out.println("SQL");
+                        } catch (Exception e) {System.err.println(e);
+                            System.out.println("НЕ SQL");}
+                } else {// Логотип не изменен правим только текст
+                    sql = "UPDATE charity SET CharityName = '" + chrityName 
+                        + "', CharityDescription = '" + chrityDesc + "',CharityLogo = '" + chrityLogo 
+                        + "' WHERE charity.CharityId = " + charityID + ";";//необходимо разделить на 2 запроса первый текст другой блоб
+                    System.out.println(sql);
+                    try {  
+                        PreparedStatement pstm = con.prepareStatement(sql);
+                        pstm.executeUpdate();
+                        pstm.close();stm.close();con.close();
+                    } catch (SQLException sqle) {
+                        System.err.println(sqle);
+                        System.out.println("SQL текст");
+                    } catch (Exception e) {System.err.println(e);
+                        System.out.println("НЕ SQL текст");}                
                 }
+    
             } else { //иначе идет добавление
                 sql = "INSERT INTO `charity` (`CharityName`, `CharityDescription`, `CharityLogo`, `CharityLogoFile`) VALUES "
                         + "('" + chrityName + "',  '" + chrityDesc + "',  '" + chrityLogo + "', ?);";
@@ -454,7 +475,7 @@ public class AddOrEditCharity extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new AddOrEditCharity(null).setVisible(true);
+                    new AddOrEditCharity("Arises").setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(AddOrEditCharity.class.getName()).log(Level.SEVERE, null, ex);
                 }
