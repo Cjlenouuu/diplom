@@ -91,6 +91,8 @@ public static String charityNum;
         titelL7 = new javax.swing.JLabel();
         titelL8 = new javax.swing.JLabel();
         charityCB = new javax.swing.JComboBox<>();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -191,6 +193,7 @@ public static String charityNum;
         titelL4.setText("Варианты комплектов:");
         mainP.add(titelL4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 260, -1, -1));
 
+        complaRB.setBackground(new java.awt.Color(253, 193, 0));
         complaRB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         complaRB.setForeground(new java.awt.Color(80, 80, 80));
         complaRB.setText("<html><p>Вариант А($0): Номер бегуна + </p><p>RFID браслет.</p></html>");
@@ -201,6 +204,7 @@ public static String charityNum;
         });
         mainP.add(complaRB, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 300, -1, -1));
 
+        complbRB.setBackground(new java.awt.Color(253, 193, 0));
         complbRB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         complbRB.setForeground(new java.awt.Color(80, 80, 80));
         complbRB.setText("<html><p>Вариант B($20): Вариант А +</p><p>бейсболка + бутылка воды.</p></html>");
@@ -211,6 +215,7 @@ public static String charityNum;
         });
         mainP.add(complbRB, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 340, -1, -1));
 
+        complcRB.setBackground(new java.awt.Color(253, 193, 0));
         complcRB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         complcRB.setForeground(new java.awt.Color(80, 80, 80));
         complcRB.setText("<HTML><p>Вариант С: Вариант B + </p><p>футболка + сувенирный пакет.</p></html>");
@@ -221,16 +226,19 @@ public static String charityNum;
         });
         mainP.add(complcRB, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 380, -1, -1));
 
+        fullmCB.setBackground(new java.awt.Color(253, 193, 0));
         fullmCB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         fullmCB.setForeground(new java.awt.Color(80, 80, 80));
         fullmCB.setText("42 km Полный марафон ($145$) ");
         mainP.add(fullmCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, -1, -1));
 
+        halfmCB.setBackground(new java.awt.Color(253, 193, 0));
         halfmCB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         halfmCB.setForeground(new java.awt.Color(80, 80, 80));
         halfmCB.setText("21 km Полумарафон ($75$)");
         mainP.add(halfmCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, -1, -1));
 
+        smallmCB.setBackground(new java.awt.Color(253, 193, 0));
         smallmCB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         smallmCB.setForeground(new java.awt.Color(80, 80, 80));
         smallmCB.setText("5 km Малая дистанция ($20$)");
@@ -284,12 +292,21 @@ public static String charityNum;
         });
         mainP.add(charityCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 440, 170, 30));
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/вопрос.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        mainP.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 440, 30, 30));
+        mainP.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 436, 40, 40));
+
+        jButton4.setText("jButton4");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        mainP.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 510, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -358,14 +375,18 @@ new MenuRunner().setVisible(true);
     }//GEN-LAST:event_backBActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        charityNum = (String) charityCB.getSelectedItem();
+       charityNum = (String) charityCB.getSelectedItem();
         System.out.println(charityNum);
    
             new SponsorInfo().setVisible(true);
-            // TODO add your handling code here:
-       
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+System.out.println(getClass().getResource("/materials/icon/вопрос.png")); 
+System.out.println(getClass().getResource("/materials/icon/вопрос.jpg")); 
+//jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/foto.jpg")));
+//jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/foto.png")));// TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     public static void main(String args[]) {
@@ -411,6 +432,7 @@ new MenuRunner().setVisible(true);
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel mainP;
     private javax.swing.JCheckBox smallmCB;

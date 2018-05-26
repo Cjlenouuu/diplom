@@ -48,7 +48,7 @@ public class SponsorInfo extends javax.swing.JFrame {
                     //System.out.println(charDes);
                     System.out.println(charLog);
                      infoTA.append(charDes);
-                     ImageIcon icon = new ImageIcon("/materials/charityLogo/arise-logo.png");
+                     ImageIcon icon = new ImageIcon(getClass().getResource("/materials/charityLogo/"+charLog+""));
                     iconLogL.setIcon(icon);
                      jLabel2.setText(charName);
                 }
@@ -93,6 +93,7 @@ public class SponsorInfo extends javax.swing.JFrame {
         mainP.setBackground(new java.awt.Color(253, 193, 0));
         mainP.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/cross-icon - копия.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
