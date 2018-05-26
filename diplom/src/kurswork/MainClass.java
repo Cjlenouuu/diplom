@@ -15,8 +15,8 @@ public class MainClass {
     public static Font fontB = new java.awt.Font("Century Gothic", 3, 14);
     
     public static final String USER = "root";
-    public static final String URL = "jdbc:mysql://localhost:3306/dip";//домашнее подключение localhost:3306/dip
-    public static final String PASS = "";//Пароль для подключения
+    public static final String URL = "jdbc:mysql://localhost:3306/kurs";//домашнее подключение localhost:3306/dip
+    public static final String PASS = "root";//Пароль для подключения
     
     
     
