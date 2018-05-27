@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 import kurswork.MainClass;
 import kurswork.Reg;
 import scripts.CharityDB;
@@ -173,7 +174,7 @@ public static String charityNum;
         sumL.setFont(new java.awt.Font("Century Gothic", 1, 64)); // NOI18N
         sumL.setForeground(new java.awt.Color(80, 80, 80));
         sumL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        mainP.add(sumL, new org.netbeans.lib.awtextra.AbsoluteConstraints(507, 455, 140, 80));
+        mainP.add(sumL, new org.netbeans.lib.awtextra.AbsoluteConstraints(507, 455, 240, 80));
 
         titelL2.setBackground(new java.awt.Color(36, 29, 112));
         titelL2.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
@@ -218,7 +219,7 @@ public static String charityNum;
         complcRB.setBackground(new java.awt.Color(253, 193, 0));
         complcRB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         complcRB.setForeground(new java.awt.Color(80, 80, 80));
-        complcRB.setText("<HTML><p>Вариант С: Вариант B + </p><p>футболка + сувенирный пакет.</p></html>");
+        complcRB.setText("<HTML><p>Вариант С($45): Вариант B + </p><p>футболка + сувенирный пакет.</p></html>");
         complcRB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 complcRBActionPerformed(evt);
@@ -335,32 +336,64 @@ ButtonGroup group = new ButtonGroup();
     }//GEN-LAST:event_complcRBActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-error=false;
-if (complaRB.isSelected()) {
+        String runnerID = null;
+        String complect = null;
+        error=false;
+        Boolean error1=false;
+        
+        if (complaRB.isSelected()) {
+    complect = "A";
+    } else {if (complbRB.isSelected()){
+        complect = "B";
+    } else {if (complcRB.isSelected())
+            {complect = "C";}else{JOptionPane.showMessageDialog(this, "Вы не выбрали комплект формы", "Предупреждение", JOptionPane.WARNING_MESSAGE);}}};
+        System.out.println(complect);
+        System.out.println(complect);
+        System.out.println(complect);
+        if (complaRB.isSelected()) {
     sum = 0;
     } else {if (complbRB.isSelected()){
         sum = 20;
     } else {if (complcRB.isSelected())
             {sum = 45;} else error = true;}};
-if (error == false) {            
-if (fullmCB.isSelected()){sum = sum + 145;
+ if (fullmCB.isSelected()){sum = sum + 145;
         };
 if (halfmCB.isSelected()){sum = sum + 75;
         };
 if (smallmCB.isSelected()){sum = sum + 20;
         };       
 sumL.setText("$" +sum);
-    }
+if ((fullmCB.isSelected())||(halfmCB.isSelected())||(smallmCB.isSelected())){error1 = false;}
+else{error1 = true;JOptionPane.showMessageDialog(this, "Вы не выбрали дистанции для марафона", "Предупреждение", JOptionPane.WARNING_MESSAGE);}
+if ((error == false)&&(error1==false)) {            
+
+    
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
     String date = dateFormat.format(new Date());
     String vremya = "";
     try {
         Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from runner where email = '"+MainClass.emailR+"'");
+        rs.next();
+        runnerID= rs.getString(1);
+        rs.close();
+        String charity = (String) charityCB.getSelectedItem();
+        rs = stmt.executeQuery("select * from charity where CharityName = '"+charity+"'");
+        rs.next();
+        charity = rs.getString(1);
+        rs.close();
+        String insert1 = "INSERT INTO `kurs`.`registration` (`RunnerId`, `RegistrationDateTime`, `RaceKitOptionId`, `RegistrationStatusId`, `Cost`, `CharityId`, `SponsorshipTarget`) "
+              + "VALUES ('"+runnerID+"', '"+date+"', '"+complect+"', '1', '0.00', '"+charity+"', '0');";
+        stmt.execute(insert1);
+        stmt.close();
+        JOptionPane.showMessageDialog(this, "Вы успешно зарегистрированы", "Успех", JOptionPane.INFORMATION_MESSAGE);
     } catch (SQLException ex) {
         Logger.getLogger(RegOnMar.class.getName()).log(Level.SEVERE, null, ex);
     }
-     String insert1 = "INSERT INTO `kurs`.`registration` (`RunnerId`, `RegistrationDateTime`, `RaceKitOptionId`, `RegistrationStatusId`, `Cost`, `CharityId`, `SponsorshipTarget`) VALUES ('5192', '2017-10-09 09:31:22', 'C', '1', '20.00', '11', '100');";
+}    
+     
                 /*INSERT INTO `kurs`.`registration` (`RunnerId`, `RegistrationDateTime`, `RaceKitOptionId`, `RegistrationStatusId`, `Cost`, `CharityId`, `SponsorshipTarget`) 
 VALUES ('5192', '2017-10-09 09:31:22', 'C', '1', '20.00', '11', '100');*/
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -192,7 +192,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="507" y="455" width="140" height="80"/>
+              <AbsoluteConstraints x="507" y="455" width="240" height="80"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -315,7 +315,7 @@
               <Color blue="50" green="50" red="50" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="&quot;&lt;HTML&gt;&lt;p&gt;&#x412;&#x430;&#x440;&#x438;&#x430;&#x43d;&#x442; &#x421;: &#x412;&#x430;&#x440;&#x438;&#x430;&#x43d;&#x442; B + &lt;/p&gt;&lt;p&gt;&#x444;&#x443;&#x442;&#x431;&#x43e;&#x43b;&#x43a;&#x430; + &#x441;&#x443;&#x432;&#x435;&#x43d;&#x438;&#x440;&#x43d;&#x44b;&#x439; &#x43f;&#x430;&#x43a;&#x435;&#x442;.&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
+              <Connection code="&quot;&lt;HTML&gt;&lt;p&gt;&#x412;&#x430;&#x440;&#x438;&#x430;&#x43d;&#x442; &#x421;($45): &#x412;&#x430;&#x440;&#x438;&#x430;&#x43d;&#x442; B + &lt;/p&gt;&lt;p&gt;&#x444;&#x443;&#x442;&#x431;&#x43e;&#x43b;&#x43a;&#x430; + &#x441;&#x443;&#x432;&#x435;&#x43d;&#x438;&#x440;&#x43d;&#x44b;&#x439; &#x43f;&#x430;&#x43a;&#x435;&#x442;.&lt;/p&gt;&lt;/html&gt;&quot;" type="code"/>
             </Property>
           </Properties>
           <Events>
