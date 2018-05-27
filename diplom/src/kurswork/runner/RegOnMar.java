@@ -86,14 +86,13 @@ public static String charityNum;
         halfmCB = new javax.swing.JCheckBox();
         smallmCB = new javax.swing.JCheckBox();
         titelL5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        regB = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         titelL6 = new javax.swing.JLabel();
         titelL7 = new javax.swing.JLabel();
         titelL8 = new javax.swing.JLabel();
         charityCB = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -251,21 +250,26 @@ public static String charityNum;
         titelL5.setText("Регистрация на марафон");
         mainP.add(titelL5, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 88, -1, 35));
 
-        jButton1.setBackground(new java.awt.Color(0, 144, 62));
-        jButton1.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(235, 235, 235));
-        jButton1.setText("Регистрация");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        regB.setBackground(new java.awt.Color(0, 144, 62));
+        regB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        regB.setForeground(new java.awt.Color(235, 235, 235));
+        regB.setText("Регистрация");
+        regB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                regBActionPerformed(evt);
             }
         });
-        mainP.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 520, -1, 30));
+        mainP.add(regB, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 520, -1, 30));
 
         jButton2.setBackground(new java.awt.Color(0, 144, 62));
         jButton2.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(235, 235, 235));
         jButton2.setText("Отмена");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         mainP.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 520, 110, 30));
 
         titelL6.setBackground(new java.awt.Color(36, 29, 112));
@@ -301,14 +305,6 @@ public static String charityNum;
         });
         mainP.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 436, 40, 40));
 
-        jButton4.setText("jButton4");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        mainP.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 510, -1, -1));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -335,7 +331,7 @@ ButtonGroup group = new ButtonGroup();
          group.add(complcRB);
     }//GEN-LAST:event_complcRBActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void regBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regBActionPerformed
         String runnerID = null;
         String complect = null;
         error=false;
@@ -384,19 +380,38 @@ if ((error == false)&&(error1==false)) {
         rs.next();
         charity = rs.getString(1);
         rs.close();
-        String insert1 = "INSERT INTO `kurs`.`registration` (`RunnerId`, `RegistrationDateTime`, `RaceKitOptionId`, `RegistrationStatusId`, `Cost`, `CharityId`, `SponsorshipTarget`) "
+        String insert1 = "INSERT INTO registration (RunnerId,RegistrationDateTime, RaceKitOptionId, RegistrationStatusId, Cost, CharityId, SponsorshipTarget) "
               + "VALUES ('"+runnerID+"', '"+date+"', '"+complect+"', '1', '0.00', '"+charity+"', '0');";
         stmt.execute(insert1);
+        rs = stmt.executeQuery("select * from registration where RegistrationDateTime = '"+date+"'");
+        rs.next();
+        String regID = rs.getString(1);
+        rs.close();
+        if (fullmCB.isSelected())
+        {
+            stmt.execute("INSERT INTO registrationevent (RegistrationId, EventId, BibNumber) VALUES ('"+regID+"', '18_8FM', '1');");
+        }
+        if (halfmCB.isSelected())
+        {
+            stmt.execute("INSERT INTO registrationevent (RegistrationId, EventId, BibNumber) VALUES ('"+regID+"', '18_8HM', '1');");
+        }
+         if (smallmCB.isSelected())
+        {
+            stmt.execute("INSERT INTO registrationevent (RegistrationId, EventId, BibNumber) VALUES ('"+regID+"', '18_8FR', '1');");
+        }
         stmt.close();
         JOptionPane.showMessageDialog(this, "Вы успешно зарегистрированы", "Успех", JOptionPane.INFORMATION_MESSAGE);
+        new MenuRunner().setVisible(true);
+        this.dispose();
     } catch (SQLException ex) {
         Logger.getLogger(RegOnMar.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(this, "При регистрации на событие произошла ошибка, пожалуйста, свяжитесь с администратором для устранения неполадок", "Ошибка", JOptionPane.ERROR_MESSAGE);
     }
 }    
      
                 /*INSERT INTO `kurs`.`registration` (`RunnerId`, `RegistrationDateTime`, `RaceKitOptionId`, `RegistrationStatusId`, `Cost`, `CharityId`, `SponsorshipTarget`) 
 VALUES ('5192', '2017-10-09 09:31:22', 'C', '1', '20.00', '11', '100');*/
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_regBActionPerformed
 
     private void charityCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_charityCBActionPerformed
         String a = (String) charityCB.getSelectedItem();//присваивает значение поля переменной
@@ -414,12 +429,10 @@ new MenuRunner().setVisible(true);
             new SponsorInfo().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-System.out.println(getClass().getResource("/materials/icon/вопрос.png")); 
-System.out.println(getClass().getResource("/materials/icon/вопрос.jpg")); 
-//jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/foto.jpg")));
-//jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/foto.png")));// TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+new MenuRunner().setVisible(true);
+this.dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     public static void main(String args[]) {
@@ -462,12 +475,11 @@ System.out.println(getClass().getResource("/materials/icon/вопрос.jpg"));
     private javax.swing.JCheckBox fullmCB;
     private javax.swing.JCheckBox halfmCB;
     private javax.swing.JPanel headP;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel mainP;
+    private javax.swing.JButton regB;
     private javax.swing.JCheckBox smallmCB;
     private javax.swing.JLabel sumL;
     private javax.swing.JLabel timerL;
