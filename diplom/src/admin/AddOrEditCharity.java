@@ -353,8 +353,12 @@ public class AddOrEditCharity extends javax.swing.JFrame {
             Statement stm = con.createStatement();
             String sql = "";
             String chrityName = nameCharityTF.getText();
+            if (chrityName == null) {chrityName = "";}
+            System.err.println(chrityName);
             String chrityDesc = descCharityTA.getText();
+            if (chrityDesc == null) {chrityDesc = "";}
             String chrityLogo = logoCharityTF.getText();
+            if (chrityLogo == null) {chrityLogo = "";}
             System.out.println(s);
             
             if (edit == true) { //Проверка: что необходимо сделать редактировать или добавить, если истина, то редактирование 
@@ -381,7 +385,7 @@ public class AddOrEditCharity extends javax.swing.JFrame {
                 } else {// Логотип не изменен правим только текст
                     sql = "UPDATE charity SET CharityName = '" + chrityName 
                         + "', CharityDescription = '" + chrityDesc + "',CharityLogo = '" + chrityLogo 
-                        + "' WHERE charity.CharityId = " + charityID + ";";//необходимо разделить на 2 запроса первый текст другой блоб
+                        + "' WHERE charity.CharityId = " + charityID + ";";
                     System.out.println(sql);
                     try {  
                         PreparedStatement pstm = con.prepareStatement(sql);
@@ -395,16 +399,37 @@ public class AddOrEditCharity extends javax.swing.JFrame {
                 }
     
             } else { //иначе идет добавление
+                if (s != null) { //Проверка был ли изменен логотип
+                    //Логотип изменен правим все
                 sql = "INSERT INTO `charity` (`CharityName`, `CharityDescription`, `CharityLogo`, `CharityLogoFile`) VALUES "
                         + "('" + chrityName + "',  '" + chrityDesc + "',  '" + chrityLogo + "', ?);";
-                PreparedStatement pstm = con.prepareStatement(sql);
-                //pstm.setBlob(3, is);
-                stm.executeUpdate(sql);
+                try {
+                    InputStream file = new FileInputStream(new File(s));//Присваиваем переменой file путь к лого
+                    PreparedStatement pstm = con.prepareStatement(sql);
+                    pstm.setBlob(1,  file);
+                    pstm.executeUpdate();
+                    pstm.close();
+                    stm.close();
+                    con.close();
+                    } catch (SQLException sqle) {System.err.println(sqle);
+                        System.out.println("Add SQL");
+                        } catch (Exception e) {System.err.println(e);
+                            System.out.println("НЕ Add SQL");}
+                } else {// Логотип не изменен правим только текст
+                    sql = "INSERT INTO `charity` (`CharityName`, `CharityDescription`, `CharityLogo`) VALUES "
+                        + "('" + chrityName + "',  '" + chrityDesc + "',  '" + chrityLogo + "');";
+                    try {  
+                        PreparedStatement pstm = con.prepareStatement(sql);
+                        pstm.executeUpdate();
+                        pstm.close();stm.close();con.close();
+                    } catch (SQLException sqle) {
+                        System.err.println(sqle);
+                        System.out.println("Add SQL (текст)");
+                    } catch (Exception e) {System.err.println(e);
+                        System.out.println("НЕ Add SQL (текст)");}  
+                }               
             }
-            
-            //PreparedStatement pstm = con.prepareStatement(sql);
-            //pstm.setBlob(3, is);
-            
+                 
         } catch (SQLException ex) {
             Logger.getLogger(AddOrEditCharity.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -475,7 +500,7 @@ public class AddOrEditCharity extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new AddOrEditCharity("Arises").setVisible(true);
+                    new AddOrEditCharity("Arise").setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(AddOrEditCharity.class.getName()).log(Level.SEVERE, null, ex);
                 }
