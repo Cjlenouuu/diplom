@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 import kurswork.MainClass;
 import kurswork.Reg;
 import scripts.CharityDB;
@@ -85,12 +86,13 @@ public static String charityNum;
         halfmCB = new javax.swing.JCheckBox();
         smallmCB = new javax.swing.JCheckBox();
         titelL5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        regB = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         titelL6 = new javax.swing.JLabel();
         titelL7 = new javax.swing.JLabel();
         titelL8 = new javax.swing.JLabel();
         charityCB = new javax.swing.JComboBox<>();
+        jButton3 = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -171,7 +173,7 @@ public static String charityNum;
         sumL.setFont(new java.awt.Font("Century Gothic", 1, 64)); // NOI18N
         sumL.setForeground(new java.awt.Color(80, 80, 80));
         sumL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        mainP.add(sumL, new org.netbeans.lib.awtextra.AbsoluteConstraints(507, 455, 140, 80));
+        mainP.add(sumL, new org.netbeans.lib.awtextra.AbsoluteConstraints(507, 455, 240, 80));
 
         titelL2.setBackground(new java.awt.Color(36, 29, 112));
         titelL2.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
@@ -191,6 +193,7 @@ public static String charityNum;
         titelL4.setText("Варианты комплектов:");
         mainP.add(titelL4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 260, -1, -1));
 
+        complaRB.setBackground(new java.awt.Color(253, 193, 0));
         complaRB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         complaRB.setForeground(new java.awt.Color(80, 80, 80));
         complaRB.setText("<html><p>Вариант А($0): Номер бегуна + </p><p>RFID браслет.</p></html>");
@@ -201,6 +204,7 @@ public static String charityNum;
         });
         mainP.add(complaRB, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 300, -1, -1));
 
+        complbRB.setBackground(new java.awt.Color(253, 193, 0));
         complbRB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         complbRB.setForeground(new java.awt.Color(80, 80, 80));
         complbRB.setText("<html><p>Вариант B($20): Вариант А +</p><p>бейсболка + бутылка воды.</p></html>");
@@ -211,9 +215,10 @@ public static String charityNum;
         });
         mainP.add(complbRB, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 340, -1, -1));
 
+        complcRB.setBackground(new java.awt.Color(253, 193, 0));
         complcRB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         complcRB.setForeground(new java.awt.Color(80, 80, 80));
-        complcRB.setText("<HTML><p>Вариант С: Вариант B + </p><p>футболка + сувенирный пакет.</p></html>");
+        complcRB.setText("<HTML><p>Вариант С($45): Вариант B + </p><p>футболка + сувенирный пакет.</p></html>");
         complcRB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 complcRBActionPerformed(evt);
@@ -221,16 +226,19 @@ public static String charityNum;
         });
         mainP.add(complcRB, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 380, -1, -1));
 
+        fullmCB.setBackground(new java.awt.Color(253, 193, 0));
         fullmCB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         fullmCB.setForeground(new java.awt.Color(80, 80, 80));
         fullmCB.setText("42 km Полный марафон ($145$) ");
         mainP.add(fullmCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, -1, -1));
 
+        halfmCB.setBackground(new java.awt.Color(253, 193, 0));
         halfmCB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         halfmCB.setForeground(new java.awt.Color(80, 80, 80));
         halfmCB.setText("21 km Полумарафон ($75$)");
         mainP.add(halfmCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, -1, -1));
 
+        smallmCB.setBackground(new java.awt.Color(253, 193, 0));
         smallmCB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         smallmCB.setForeground(new java.awt.Color(80, 80, 80));
         smallmCB.setText("5 km Малая дистанция ($20$)");
@@ -242,21 +250,26 @@ public static String charityNum;
         titelL5.setText("Регистрация на марафон");
         mainP.add(titelL5, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 88, -1, 35));
 
-        jButton1.setBackground(new java.awt.Color(0, 144, 62));
-        jButton1.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(235, 235, 235));
-        jButton1.setText("Регистрация");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        regB.setBackground(new java.awt.Color(0, 144, 62));
+        regB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        regB.setForeground(new java.awt.Color(235, 235, 235));
+        regB.setText("Регистрация");
+        regB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                regBActionPerformed(evt);
             }
         });
-        mainP.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 520, -1, 30));
+        mainP.add(regB, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 520, -1, 30));
 
         jButton2.setBackground(new java.awt.Color(0, 144, 62));
         jButton2.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(235, 235, 235));
         jButton2.setText("Отмена");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         mainP.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 520, 110, 30));
 
         titelL6.setBackground(new java.awt.Color(36, 29, 112));
@@ -284,12 +297,13 @@ public static String charityNum;
         });
         mainP.add(charityCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 440, 170, 30));
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/вопрос.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        mainP.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 440, 30, 30));
+        mainP.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 436, 40, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -317,36 +331,87 @@ ButtonGroup group = new ButtonGroup();
          group.add(complcRB);
     }//GEN-LAST:event_complcRBActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-error=false;
-if (complaRB.isSelected()) {
+    private void regBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regBActionPerformed
+        String runnerID = null;
+        String complect = null;
+        error=false;
+        Boolean error1=false;
+        
+        if (complaRB.isSelected()) {
+    complect = "A";
+    } else {if (complbRB.isSelected()){
+        complect = "B";
+    } else {if (complcRB.isSelected())
+            {complect = "C";}else{JOptionPane.showMessageDialog(this, "Вы не выбрали комплект формы", "Предупреждение", JOptionPane.WARNING_MESSAGE);}}};
+        System.out.println(complect);
+        System.out.println(complect);
+        System.out.println(complect);
+        if (complaRB.isSelected()) {
     sum = 0;
     } else {if (complbRB.isSelected()){
         sum = 20;
     } else {if (complcRB.isSelected())
             {sum = 45;} else error = true;}};
-if (error == false) {            
-if (fullmCB.isSelected()){sum = sum + 145;
+ if (fullmCB.isSelected()){sum = sum + 145;
         };
 if (halfmCB.isSelected()){sum = sum + 75;
         };
 if (smallmCB.isSelected()){sum = sum + 20;
         };       
 sumL.setText("$" +sum);
-    }
+if ((fullmCB.isSelected())||(halfmCB.isSelected())||(smallmCB.isSelected())){error1 = false;}
+else{error1 = true;JOptionPane.showMessageDialog(this, "Вы не выбрали дистанции для марафона", "Предупреждение", JOptionPane.WARNING_MESSAGE);}
+if ((error == false)&&(error1==false)) {            
+
+    
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
     String date = dateFormat.format(new Date());
     String vremya = "";
     try {
         Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from runner where email = '"+MainClass.emailR+"'");
+        rs.next();
+        runnerID= rs.getString(1);
+        rs.close();
+        String charity = (String) charityCB.getSelectedItem();
+        rs = stmt.executeQuery("select * from charity where CharityName = '"+charity+"'");
+        rs.next();
+        charity = rs.getString(1);
+        rs.close();
+        String insert1 = "INSERT INTO registration (RunnerId,RegistrationDateTime, RaceKitOptionId, RegistrationStatusId, Cost, CharityId, SponsorshipTarget) "
+              + "VALUES ('"+runnerID+"', '"+date+"', '"+complect+"', '1', '0.00', '"+charity+"', '0');";
+        stmt.execute(insert1);
+        rs = stmt.executeQuery("select * from registration where RegistrationDateTime = '"+date+"'");
+        rs.next();
+        String regID = rs.getString(1);
+        rs.close();
+        if (fullmCB.isSelected())
+        {
+            stmt.execute("INSERT INTO registrationevent (RegistrationId, EventId, BibNumber) VALUES ('"+regID+"', '18_8FM', '1');");
+        }
+        if (halfmCB.isSelected())
+        {
+            stmt.execute("INSERT INTO registrationevent (RegistrationId, EventId, BibNumber) VALUES ('"+regID+"', '18_8HM', '1');");
+        }
+         if (smallmCB.isSelected())
+        {
+            stmt.execute("INSERT INTO registrationevent (RegistrationId, EventId, BibNumber) VALUES ('"+regID+"', '18_8FR', '1');");
+        }
+        stmt.close();
+        JOptionPane.showMessageDialog(this, "Вы успешно зарегистрированы", "Успех", JOptionPane.INFORMATION_MESSAGE);
+        new MenuRunner().setVisible(true);
+        this.dispose();
     } catch (SQLException ex) {
         Logger.getLogger(RegOnMar.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(this, "При регистрации на событие произошла ошибка, пожалуйста, свяжитесь с администратором для устранения неполадок", "Ошибка", JOptionPane.ERROR_MESSAGE);
     }
-     String insert1 = "INSERT INTO `kurs`.`registration` (`RunnerId`, `RegistrationDateTime`, `RaceKitOptionId`, `RegistrationStatusId`, `Cost`, `CharityId`, `SponsorshipTarget`) VALUES ('5192', '2017-10-09 09:31:22', 'C', '1', '20.00', '11', '100');";
+}    
+     
                 /*INSERT INTO `kurs`.`registration` (`RunnerId`, `RegistrationDateTime`, `RaceKitOptionId`, `RegistrationStatusId`, `Cost`, `CharityId`, `SponsorshipTarget`) 
 VALUES ('5192', '2017-10-09 09:31:22', 'C', '1', '20.00', '11', '100');*/
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_regBActionPerformed
 
     private void charityCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_charityCBActionPerformed
         String a = (String) charityCB.getSelectedItem();//присваивает значение поля переменной
@@ -358,14 +423,16 @@ new MenuRunner().setVisible(true);
     }//GEN-LAST:event_backBActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        charityNum = (String) charityCB.getSelectedItem();
+       charityNum = (String) charityCB.getSelectedItem();
         System.out.println(charityNum);
    
             new SponsorInfo().setVisible(true);
-            // TODO add your handling code here:
-       
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+new MenuRunner().setVisible(true);
+this.dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     public static void main(String args[]) {
@@ -408,11 +475,11 @@ new MenuRunner().setVisible(true);
     private javax.swing.JCheckBox fullmCB;
     private javax.swing.JCheckBox halfmCB;
     private javax.swing.JPanel headP;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel mainP;
+    private javax.swing.JButton regB;
     private javax.swing.JCheckBox smallmCB;
     private javax.swing.JLabel sumL;
     private javax.swing.JLabel timerL;

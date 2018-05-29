@@ -29,8 +29,41 @@ public class IFSponsorR {
         //System.out.println(m.sponsor[1]);
         
     }
+      public int countDB1(String emailRunner) {
+        int cDB = 0;
+         try {
+        Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+             
+            Statement stmt = con.createStatement();
+                
+            ResultSet rs = stmt.executeQuery("select SponsorName \n" +
+                                                "from sponsorname,runner, charity, registration, sponsorship\n" +
+                                                "where runner.RunnerId = registration.RunnerId and\n" +
+                                                "    registration.CharityId = charity.CharityId and\n" +
+                                                "    sponsorship.RegistrationId = registration.RegistrationId and\n" +
+                                                "    Email like '" + emailRunner + "';");
     
-    public int countDB(String emailRunner) {
+   try{     
+                rs.first();
+                cDB = rs.getInt(1);
+                rs.close();
+                stmt.close();
+            con.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cDB;
+    }
+      
+      
+      
+      
+  public int countDB(String emailRunner) {
         int cDB = 0;
          try {
         Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
