@@ -145,6 +145,11 @@ public class MenuRunner extends javax.swing.JFrame {
         resultB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         resultB.setForeground(new java.awt.Color(80, 80, 80));
         resultB.setText("Мои результаты");
+        resultB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resultBActionPerformed(evt);
+            }
+        });
         mainP.add(resultB, new org.netbeans.lib.awtextra.AbsoluteConstraints(475, 157, 198, 50));
 
         editB.setBackground(new java.awt.Color(0, 144, 62));
@@ -226,6 +231,11 @@ public class MenuRunner extends javax.swing.JFrame {
         }
         this.dispose();
     }//GEN-LAST:event_sponsorBActionPerformed
+
+    private void resultBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultBActionPerformed
+new MyResult().setVisible(true);
+this.dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_resultBActionPerformed
 
     /**
      * @param args the command line arguments

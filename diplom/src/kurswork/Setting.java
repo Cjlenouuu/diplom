@@ -1,62 +1,23 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+Данная форма служит в качестве шаблона для форм
  */
-package kurswork.runner;
+package kurswork;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import javax.swing.table.DefaultTableModel;
-import kurswork.MainClass;
-import org.eclipse.persistence.tools.schemaframework.DefaultTableGenerator;
+import kurswork.info.*;
 
 /**
  *
  * @author user
  */
-public class MyResult extends javax.swing.JFrame {
+public class Setting extends javax.swing.JFrame {
 
     /**
      * Creates new form Wablon
      */
-    public MyResult() {
+    public Setting() {
         super("&&&");
         initComponents();
         setLocationRelativeTo(null);
-        DefaultTableModel dtm = getData();
-        sponsorT.setModel(dtm);
-        sponsorT.setEnabled(false);
-    }
-    
-    
-    
-    
-    
-    private DefaultTableModel getData()
-    {
-        DefaultTableModel dtm = new DefaultTableModel();
-        dtm.addColumn("Имя спонсора");
-        dtm.addColumn("Сумма");
-
-        
-        try {
-
-            Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
-            Statement stmt = con.createStatement();  
-            ResultSet rs = stmt.executeQuery("SELECT Sponsorname, Amount FROM sponsorname, sponsorship, registration, runner, user  \n" +
-"where registration.RunnerID=runner.RunnerID and \n" +
-"sponsorship.RegistrationId =registration.RegistrationId and\n" +
-" sponsorname.SponsornameId = sponsorship.SponsornameId and user.Email = runner.Email and\n" +
-" user.Email = '"+MainClass.emailR+"'\n" +
-" group by Amount");
-            while(rs.next()){
-            dtm.addRow(new Object[]{rs.getString(1), rs.getString(2)});}
-            return dtm;
-         }catch(Exception ex){System.err.print(ex);}
-        return null;
     }
 
     /**
@@ -75,9 +36,10 @@ public class MyResult extends javax.swing.JFrame {
         backB = new javax.swing.JButton();
         dawnP = new javax.swing.JPanel();
         timerL = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        sponsorT = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        URL = new javax.swing.JTextField();
+        LOGIN = new javax.swing.JTextField();
+        PAS = new javax.swing.JTextField();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -149,19 +111,24 @@ public class MyResult extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        sponsorT.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
+        jButton1.setText("Принять изменения");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
-        ));
-        jScrollPane1.setViewportView(sponsorT);
+        });
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(36, 29, 112));
-        jLabel2.setText("В таблице показаны имена спонсоров и суммы их взносов");
+        URL.setFont(MainClass.fontB);
+        URL.setBackground(new java.awt.Color(0, 144, 62));
+        URL.setText(MainClass.URL);
+
+        LOGIN.setFont(MainClass.fontB);
+        LOGIN.setBackground(new java.awt.Color(0, 144, 62));
+        LOGIN.setText(MainClass.USER);
+
+        PAS.setFont(MainClass.fontB);
+        PAS.setBackground(new java.awt.Color(0, 144, 62));
+        PAS.setText(MainClass.PASS);
 
         javax.swing.GroupLayout mainPLayout = new javax.swing.GroupLayout(mainP);
         mainP.setLayout(mainPLayout);
@@ -169,22 +136,33 @@ public class MyResult extends javax.swing.JFrame {
             mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(dawnP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(headP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54))
+            .addGroup(mainPLayout.createSequentialGroup()
+                .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(LOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(mainPLayout.createSequentialGroup()
+                                .addGap(245, 245, 245)
+                                .addComponent(URL, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(mainPLayout.createSequentialGroup()
+                            .addGap(245, 245, 245)
+                            .addComponent(PAS, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPLayout.setVerticalGroup(
             mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPLayout.createSequentialGroup()
                 .addComponent(headP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(34, 34, 34)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addGap(116, 116, 116)
+                .addComponent(URL, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PAS, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
                 .addComponent(dawnP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -202,8 +180,16 @@ public class MyResult extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    MainClass.URL = URL.getText();        // TODO add your handling code here:
+    MainClass.USER = LOGIN.getText();        // TODO add your handling code here:
+    MainClass.PASS = PAS.getText();
+    new HomeF().setVisible(true);
+    this.dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
-new MenuRunner().setVisible(true);
+new HomeF().setVisible(true);
 this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_backBActionPerformed
 
@@ -224,13 +210,13 @@ this.dispose();// TODO add your handling code here:
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MyResult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Setting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MyResult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Setting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MyResult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Setting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MyResult.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Setting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -238,20 +224,21 @@ this.dispose();// TODO add your handling code here:
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MyResult().setVisible(true);
+                new Setting().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField LOGIN;
+    private javax.swing.JTextField PAS;
+    private javax.swing.JTextField URL;
     private javax.swing.JButton backB;
     private javax.swing.JPanel dawnP;
     private javax.swing.JPanel headP;
+    private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainP;
-    private javax.swing.JTable sponsorT;
     private javax.swing.JLabel timerL;
     private javax.swing.JLabel titelL;
     // End of variables declaration//GEN-END:variables

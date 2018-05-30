@@ -34,6 +34,7 @@ public class HomeF extends javax.swing.JFrame {
         loginB = new javax.swing.JButton();
         runnerWinB1 = new javax.swing.JButton();
         testB = new javax.swing.JButton();
+        settingB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -168,6 +169,17 @@ public class HomeF extends javax.swing.JFrame {
         });
         jPanel1.add(testB, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 493, 150, -1));
 
+        settingB.setBackground(new java.awt.Color(0, 144, 62));
+        settingB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        settingB.setForeground(new java.awt.Color(235, 235, 235));
+        settingB.setText("Setting");
+        settingB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingBActionPerformed(evt);
+            }
+        });
+        jPanel1.add(settingB, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 493, 150, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -214,6 +226,11 @@ try
 }        // TODO add your handling code here:
     }//GEN-LAST:event_testBActionPerformed
 
+    private void settingBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingBActionPerformed
+new Setting().setVisible(true);
+this.dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_settingBActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -257,6 +274,7 @@ try
     private javax.swing.JPanel jPanel3;
     private javax.swing.JButton loginB;
     private javax.swing.JButton runnerWinB1;
+    private javax.swing.JButton settingB;
     private javax.swing.JButton sponsorWinB;
     private javax.swing.JButton testB;
     // End of variables declaration//GEN-END:variables
