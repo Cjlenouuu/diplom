@@ -7,9 +7,7 @@ import kurswork.info.*;
 
 public class Thanks extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Wablon
-     */
+    
     public Thanks() {
         super("Благодарность спонсору");
         initComponents();

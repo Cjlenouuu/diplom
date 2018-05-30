@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 import kurswork.runner.RunnerW;
-import kurswork.sponsor.Sponsor;
+import kurswork.sponsor.SponsorLogin;
 
 
 public class HomeF extends javax.swing.JFrame {
@@ -183,7 +183,7 @@ public class HomeF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sponsorWinBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sponsorWinBActionPerformed
-        new Sponsor().setVisible(true);
+        new SponsorLogin().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_sponsorWinBActionPerformed
 

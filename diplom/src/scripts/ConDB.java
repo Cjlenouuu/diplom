@@ -24,7 +24,7 @@ public class ConDB {
     
     
     public String[] runnersInfo = new String[5100], runnerName = new String[5100];
-    public String[] sponsor = new String[5100], runnerLast = new String[5100];
+    public String[] charityName = new String[5100], runnerLast = new String[5100];
     public int[] registrationId = new int[5100];
     
     
@@ -45,16 +45,16 @@ public class ConDB {
             
            
             Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
-             
-                Statement stmt = con.createStatement();
-                
-                ResultSet rs = stmt.executeQuery("SELECT LastName, FirstName, CountryName, BibNumber, CharityName, registration.RegistrationId    \n" +
-                                                 "FROM registration, runner, country, user, registrationevent, charity    \n" +
+            Statement stmt = con.createStatement();  
+            //Супер-Залупер запрос
+            ResultSet rs = stmt.executeQuery("SELECT LastName, FirstName, CountryName, BibNumber, CharityName, registration.RegistrationId    \n" +
+                                                 "FROM registration, runner, country, user, registrationevent, charity, event, marathon   \n" +
                                                  "where registration.runnerID=runner.runnerID and \n" +
                                                  "    runner.Email=user.Email and\n" +
                                                  "    runner.CountryCode=country.CountryCode and\n" +
                                                  "    registrationevent.RegistrationId=registration.RegistrationId and\n" + 
                                                  "    charity.CharityId = registration.CharityId\n" +
+                                                 "    and registrationevent.EventId = event.EventId and event.MarathonId = marathon.MarathonId and YearHeld = '2013'\n" + //Это строка станет камнем преткновения для запроса 
                                                  "    group by FirstName, LastName,CountryName;");
                 
                 try{
@@ -62,7 +62,7 @@ public class ConDB {
                     String str = rs.getString("LastName") + " " + rs.getString("FirstName") + " - " + rs.getString("BibNumber") + " (" + rs.getString("CountryName") + ")";    
                     runnersInfo[i] = str;
                     runnerName[i] = rs.getString("FirstName");
-                    sponsor[i] = rs.getString("CharityName");
+                    charityName[i] = rs.getString("CharityName");
                     registrationId[i] = rs.getInt("registration.RegistrationId");
                     i++;
                 }    
@@ -71,27 +71,26 @@ public class ConDB {
                 stmt.close();
             con.close();
             System.out.println("#" + i);
-            System.out.println(sponsor[1]);
+            System.out.println(charityName[1]);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("дичь");
-        }
-            
+            System.out.println("дичь");}
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-//добавление записи о спонсорстве
+//добавление записи о спонсорстве, чтобы работало необходимо войти как спонсор в систему, если сразу открыть форму, 
+    //номера спонсора не будет и запрос работать не будет
     public void insert(int regId, int sponsormameId, int amount) throws IOException{
         
         try {
             
-            try (Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS)) {
-                Statement stm = con.createStatement();
-                stm.executeUpdate("INSERT INTO sponsorship (SponsornameId, RegistrationId, Amount) VALUES ('" + sponsormameId + "', '" + regId + "', '" + amount + "');");
-                stm.close();
-            }
+            Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+            Statement stm = con.createStatement();
+            stm.executeUpdate("INSERT INTO sponsorship (SponsornameId, RegistrationId, Amount) VALUES ('" + sponsormameId + "', '" + regId + "', '" + amount + "');");
+            stm.close();
+            con.close();
             System.out.println("Запись добавлена");
         } catch (SQLException ex) {
             Logger.getLogger(ConDB.class.getName()).log(Level.SEVERE, null, ex);

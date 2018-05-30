@@ -143,10 +143,8 @@ public class MenegeCharity extends javax.swing.JFrame {
         charityT.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
         charityT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
             },
             new String [] {
-
             }
         ));
         charityT.setRowHeight(100);
@@ -275,8 +273,7 @@ public class MenegeCharity extends javax.swing.JFrame {
             Connection con = DriverManager.getConnection(MainClass.URL,MainClass.USER, MainClass.PASS);
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-                
+            rs.next();     
                 
                 descCharityTA.setText(rs.getString(3)); //передаем TextArea описание благ орг
 
@@ -328,7 +325,7 @@ public class MenegeCharity extends javax.swing.JFrame {
                 image1 = blob.getBytes(1, (int) blob.length()); //Делаем байт код и заносим в массив
                 ImageIcon image = new ImageIcon(image1); //Присваиваем выбранный массиф иконке 
                               
-                dtm.addRow(new Object[] {image, name});
+                dtm.addRow(new Object[] {image, name}); //добавляем строчку в таблицу
             }
         rs.close();stmt.close();con.close();
         return dtm;  

@@ -5,11 +5,16 @@
 package kurswork.sponsor;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 import scripts.ConDB;
 import javax.swing.JFrame;
@@ -25,24 +30,24 @@ public class Sponsor extends JFrame {
         int money=0,money1=0;
         int regId = 0, amount = 0;
         
-        
+    public String[]  runnerName = new String[10000];
+    public String[] charityName = new String[10000], runnerLast = new String[10000];
+    public int[] registrationId = new int[10000];
+      
+    int i = 1;
+           
         String red;
-        String[] charaty = new String[5100];
-        
-
-        
+        String[] charaty = new String[10000];
+      
         ConDB r = new ConDB();
 
     public Sponsor() {
         super("Спонор бегуна");
-            try {
-                r.testDatabase();
-                charaty = r.sponsor;
-            } catch (SQLException ex) {
-                Logger.getLogger(Sponsor.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
             
         initComponents();
+        DefaultComboBoxModel dcbm = getDataRunner();
+        runInfoCB.setModel(dcbm);
         setLocationRelativeTo(null);
     }
 
@@ -257,7 +262,7 @@ public class Sponsor extends JFrame {
         runInfoCB.setBackground(new java.awt.Color(0, 144, 62));
         runInfoCB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         runInfoCB.setForeground(new java.awt.Color(235, 235, 235));
-        runInfoCB.setModel(new javax.swing.DefaultComboBoxModel<>(r.runnersInfo));
+        runInfoCB.setModel(new javax.swing.DefaultComboBoxModel());
         runInfoCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runInfoCBActionPerformed(evt);
@@ -395,9 +400,9 @@ moneyTF.setText(""+money);
     private void runInfoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runInfoCBActionPerformed
 
         int numRunner = (Integer) runInfoCB.getSelectedIndex();    
-        charityL.setText(charaty[numRunner]);
-        regId = r.registrationId[numRunner];
-        System.out.println(r.registrationId[numRunner]);
+        charityL.setText(charityName[numRunner]);
+        regId = registrationId[numRunner];
+        System.out.println(registrationId[numRunner]);
     }//GEN-LAST:event_runInfoCBActionPerformed
 
     private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
@@ -429,6 +434,46 @@ moneyTF.setText(""+money);
         this.dispose();
     }//GEN-LAST:event_logoutBActionPerformed
 
+    private DefaultComboBoxModel getDataRunner() {
+        DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
+        try {
+
+            Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+            Statement stmt = con.createStatement();  
+            ResultSet rs = stmt.executeQuery("SELECT LastName, FirstName, CountryName, BibNumber, CharityName, registration.RegistrationId    \n" +
+                                                 "FROM registration, runner, country, user, registrationevent, charity, event, marathon   \n" +
+                                                 "where registration.runnerID=runner.runnerID and \n" +
+                                                 "    runner.Email=user.Email and\n" +
+                                                 "    runner.CountryCode=country.CountryCode and\n" +
+                                                 "    registrationevent.RegistrationId=registration.RegistrationId and\n" + 
+                                                 "    charity.CharityId = registration.CharityId\n" +
+                                                 "    and registrationevent.EventId = event.EventId and event.MarathonId = marathon.MarathonId and YearHeld = '2013'\n" + //Этa строка станет камнем преткновения для запроса
+                                                 "    group by FirstName, LastName,CountryName;");
+                
+                try{
+                while (rs.next()) {
+                    String str = rs.getString("LastName") + " " + rs.getString("FirstName") + " - " + rs.getString("BibNumber") + " (" + rs.getString("CountryName") + ")";    
+                    
+                    runnerName[i] = rs.getString("FirstName");
+                    charityName[i] = rs.getString("CharityName");
+                    registrationId[i] = rs.getInt("registration.RegistrationId");
+                    i++;
+                    dcbm.addElement(str);
+                }    
+               
+                rs.close();
+                stmt.close();
+            con.close();
+            System.out.println("#" + i);
+            System.out.println(charityName[1]);
+            return dcbm;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("дичь");}
+        } catch (Exception e) {
+            e.printStackTrace();}
+            return null;
+    } 
     
     public static void main(String args[]) throws SQLException {
         /* Set the Nimbus look and feel */
