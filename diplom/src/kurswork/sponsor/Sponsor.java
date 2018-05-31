@@ -447,7 +447,7 @@ moneyTF.setText(""+money);
                                                  "    runner.CountryCode=country.CountryCode and\n" +
                                                  "    registrationevent.RegistrationId=registration.RegistrationId and\n" + 
                                                  "    charity.CharityId = registration.CharityId\n" +
-                                                 "    and registrationevent.EventId = event.EventId and event.MarathonId = marathon.MarathonId and YearHeld = '2013'\n" + //Этa строка станет камнем преткновения для запроса
+                                                 "    and registrationevent.EventId = event.EventId and event.MarathonId = marathon.MarathonId and YearHeld = '2018'\n" + //Этa строка станет камнем преткновения для запроса
                                                  "    group by FirstName, LastName,CountryName;");
                 
                 try{

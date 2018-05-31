@@ -1,6 +1,18 @@
 package kurswork.coord;
 
+import admin.MenegeCharity;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
 import kurswork.HomeF;
+import kurswork.MainClass;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,15 +25,43 @@ import kurswork.HomeF;
  *
  * @author user
  */
-public class Coordinator extends javax.swing.JFrame {
+public class RunnerInMar extends javax.swing.JFrame {
 
     /**
      * Creates new form Wablon
      */
-    public Coordinator() {
+    public RunnerInMar() {
         super("Меню координатора");
         initComponents();
         setLocationRelativeTo(null);
+        DefaultTableModel dtm = getData();
+        runnerT.setModel(dtm);
+        runnerT.setAutoCreateRowSorter(true);
+    }
+    
+    
+
+        private DefaultTableModel getData()
+    {
+        DefaultTableModel dtm = new DefaultTableModel();
+  dtm.addColumn("Emаil");
+        dtm.addColumn("Фамилия");
+        dtm.addColumn("Имя");
+        dtm.addColumn("Вид марафона");
+
+        
+        try {
+
+            Connection con = DriverManager.getConnection(MainClass.URL, MainClass.USER, MainClass.PASS);
+            Statement stmt = con.createStatement();  
+            ResultSet rs = stmt.executeQuery("SELECT user.Email,FirstName,LastName,EventTypeName   FROM user, runner, registration, registrationevent, event, marathon, eventtype\n" +
+"WHERE user.Email = runner.Email and runner.RunnerId = registration.RunnerId and registration.RegistrationId = registrationevent.RegistrationId and\n" +
+"event.EventId = registrationevent.EventId and event.MarathonId = marathon.MarathonId  and event.EventTypeId = eventtype.EventTypeId  and YearHeld = '2018'");
+            while(rs.next()){
+            dtm.addRow(new Object[]{rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4)});}
+            return dtm;
+         }catch(Exception ex){System.err.print(ex);}
+        return null;
     }
 
     /**
@@ -42,9 +82,8 @@ public class Coordinator extends javax.swing.JFrame {
         dawnP = new javax.swing.JPanel();
         timerL = new javax.swing.JLabel();
         titelL1 = new javax.swing.JLabel();
-        runnersB = new javax.swing.JButton();
-        sponsersB = new javax.swing.JButton();
-        runnersB1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        runnerT = new javax.swing.JTable();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -132,37 +171,17 @@ public class Coordinator extends javax.swing.JFrame {
         titelL1.setBackground(new java.awt.Color(36, 29, 112));
         titelL1.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
         titelL1.setForeground(new java.awt.Color(80, 80, 80));
-        titelL1.setText("МЕНЮ КООРДИНАТОРА");
+        titelL1.setText("Зарегистрированные бегуны");
 
-        runnersB.setBackground(new java.awt.Color(0, 144, 62));
-        runnersB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        runnersB.setForeground(new java.awt.Color(235, 235, 235));
-        runnersB.setText("Бегуны");
-        runnersB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runnersBActionPerformed(evt);
-            }
-        });
+        runnerT.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        sponsersB.setBackground(new java.awt.Color(0, 144, 62));
-        sponsersB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        sponsersB.setForeground(new java.awt.Color(235, 235, 235));
-        sponsersB.setText("Спонсоры");
-        sponsersB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sponsersBActionPerformed(evt);
-            }
-        });
+            },
+            new String [] {
 
-        runnersB1.setBackground(new java.awt.Color(0, 144, 62));
-        runnersB1.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        runnersB1.setForeground(new java.awt.Color(235, 235, 235));
-        runnersB1.setText("Зарегистрированные на марафон");
-        runnersB1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runnersB1ActionPerformed(evt);
             }
-        });
+        ));
+        jScrollPane1.setViewportView(runnerT);
 
         javax.swing.GroupLayout mainPLayout = new javax.swing.GroupLayout(mainP);
         mainP.setLayout(mainPLayout);
@@ -173,35 +192,22 @@ public class Coordinator extends javax.swing.JFrame {
             .addGroup(mainPLayout.createSequentialGroup()
                 .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPLayout.createSequentialGroup()
-                        .addGap(251, 251, 251)
-                        .addComponent(titelL1))
+                        .addGap(167, 167, 167)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(mainPLayout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(runnersB, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(212, 212, 212)
+                        .addComponent(titelL1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
-                        .addComponent(sponsersB, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
-                        .addComponent(runnersB1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(219, 219, 219))))
         );
         mainPLayout.setVerticalGroup(
             mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPLayout.createSequentialGroup()
                 .addComponent(headP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(titelL1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                .addGap(59, 59, 59)
-                .addComponent(runnersB, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(runnersB1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addComponent(sponsersB, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
+                .addComponent(titelL1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(dawnP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -219,12 +225,8 @@ public class Coordinator extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void runnersBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnersBActionPerformed
-        
-    }//GEN-LAST:event_runnersBActionPerformed
-
     private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
-        new HomeF().setVisible(true);
+        new Coordinator().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBActionPerformed
 
@@ -232,16 +234,6 @@ public class Coordinator extends javax.swing.JFrame {
         new HomeF().setVisible(true);
         this.dispose();        
     }//GEN-LAST:event_logoutBActionPerformed
-
-    private void sponsersBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sponsersBActionPerformed
-        new SponsorView().setVisible(true);
-        this.dispose(); 
-    }//GEN-LAST:event_sponsersBActionPerformed
-
-    private void runnersB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnersB1ActionPerformed
-new RunnerInMar().setVisible(true);
-this.dispose();// TODO add your handling code here:
-    }//GEN-LAST:event_runnersB1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -260,21 +252,23 @@ this.dispose();// TODO add your handling code here:
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Coordinator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RunnerInMar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Coordinator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RunnerInMar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Coordinator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RunnerInMar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Coordinator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RunnerInMar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Coordinator().setVisible(true);
+                new RunnerInMar().setVisible(true);
             }
         });
     }
@@ -284,11 +278,10 @@ this.dispose();// TODO add your handling code here:
     private javax.swing.JPanel dawnP;
     private javax.swing.JPanel headP;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton logoutB;
     private javax.swing.JPanel mainP;
-    private javax.swing.JButton runnersB;
-    private javax.swing.JButton runnersB1;
-    private javax.swing.JButton sponsersB;
+    private javax.swing.JTable runnerT;
     private javax.swing.JLabel timerL;
     private javax.swing.JLabel titelL;
     private javax.swing.JLabel titelL1;

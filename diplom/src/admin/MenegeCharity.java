@@ -201,8 +201,9 @@ public class MenegeCharity extends javax.swing.JFrame {
                 .addGap(89, 89, 89)
                 .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(mainPLayout.createSequentialGroup()
                         .addComponent(addB, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -306,26 +307,27 @@ public class MenegeCharity extends javax.swing.JFrame {
                 return getValueAt(0, column).getClass();
             }           
         };
-        String query = "SELECT * FROM `charity`;";
+        String query = "SELECT * FROM charity;";
         Blob blob = null; // Создаём переменную BLOB в которую занесем данные из БД
         byte[] image1 = null; //Создаем массиф в который занесем байт код картинки
-        
-        dtm.addColumn("Логтип");
+        dtm.addColumn("Логотип");
         dtm.addColumn("Название");
-        
-        
         try {
             Connection con = DriverManager.getConnection(MainClass.URL,MainClass.USER, MainClass.PASS);
             Statement stmt =con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {  
                 String name = rs.getString(2);//Берем из БД название
-                
                 blob = rs.getBlob(5); //Получаем данные блоб из таблици 
+                ImageIcon image = null;
+                try{
                 image1 = blob.getBytes(1, (int) blob.length()); //Делаем байт код и заносим в массив
-                ImageIcon image = new ImageIcon(image1); //Присваиваем выбранный массиф иконке 
-                              
+                image = new ImageIcon(image1);
+                }catch(Exception ex){System.err.println(ex);}
+                 //Присваиваем выбранный массиф иконке 
+                            
                 dtm.addRow(new Object[] {image, name}); //добавляем строчку в таблицу
+                image1 = null;
             }
         rs.close();stmt.close();con.close();
         return dtm;  
@@ -333,7 +335,6 @@ public class MenegeCharity extends javax.swing.JFrame {
             Logger.getLogger(MenegeCharity.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("лалка");
         }
-        
         return null;
     }
     
