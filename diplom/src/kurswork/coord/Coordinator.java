@@ -42,7 +42,6 @@ public class Coordinator extends javax.swing.JFrame {
         dawnP = new javax.swing.JPanel();
         timerL = new javax.swing.JLabel();
         titelL1 = new javax.swing.JLabel();
-        runnersB = new javax.swing.JButton();
         sponsersB = new javax.swing.JButton();
         runnersB1 = new javax.swing.JButton();
 
@@ -134,16 +133,6 @@ public class Coordinator extends javax.swing.JFrame {
         titelL1.setForeground(new java.awt.Color(80, 80, 80));
         titelL1.setText("МЕНЮ КООРДИНАТОРА");
 
-        runnersB.setBackground(new java.awt.Color(0, 144, 62));
-        runnersB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        runnersB.setForeground(new java.awt.Color(235, 235, 235));
-        runnersB.setText("Бегуны");
-        runnersB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runnersBActionPerformed(evt);
-            }
-        });
-
         sponsersB.setBackground(new java.awt.Color(0, 144, 62));
         sponsersB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         sponsersB.setForeground(new java.awt.Color(235, 235, 235));
@@ -176,18 +165,13 @@ public class Coordinator extends javax.swing.JFrame {
                         .addGap(251, 251, 251)
                         .addComponent(titelL1))
                     .addGroup(mainPLayout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(runnersB, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(72, 72, 72)
+                        .addComponent(runnersB1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
-                        .addComponent(sponsersB, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
-                        .addComponent(runnersB1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(219, 219, 219))))
+                .addComponent(sponsersB, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
         );
         mainPLayout.setVerticalGroup(
             mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,13 +179,11 @@ public class Coordinator extends javax.swing.JFrame {
                 .addComponent(headP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(titelL1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                .addGap(59, 59, 59)
-                .addComponent(runnersB, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(41, 41, 41)
                 .addComponent(runnersB1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
+                .addGap(121, 121, 121)
                 .addComponent(sponsersB, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
+                .addGap(69, 69, 69)
                 .addComponent(dawnP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -218,10 +200,6 @@ public class Coordinator extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void runnersBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnersBActionPerformed
-        
-    }//GEN-LAST:event_runnersBActionPerformed
 
     private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
         new HomeF().setVisible(true);
@@ -286,7 +264,6 @@ this.dispose();// TODO add your handling code here:
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JButton logoutB;
     private javax.swing.JPanel mainP;
-    private javax.swing.JButton runnersB;
     private javax.swing.JButton runnersB1;
     private javax.swing.JButton sponsersB;
     private javax.swing.JLabel timerL;

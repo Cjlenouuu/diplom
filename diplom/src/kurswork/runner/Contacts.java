@@ -45,9 +45,7 @@ public class Contacts extends javax.swing.JFrame {
         jCheckBox1.setText("jCheckBox1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(480, 320));
         setMinimumSize(new java.awt.Dimension(480, 320));
-        setPreferredSize(new java.awt.Dimension(480, 320));
         setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -79,7 +77,7 @@ public class Contacts extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(36, 29, 112));
-        jLabel9.setText("+55 11 9988 7766");
+        jLabel9.setText("7(922)-920-46-03");
         mainP.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 179, -1, -1));
 
         jLabel15.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
@@ -89,7 +87,7 @@ public class Contacts extends javax.swing.JFrame {
 
         jLabel16.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(36, 29, 112));
-        jLabel16.setText("Coordinators@marathonskills.org");
+        jLabel16.setText("Cjlenouuu@gmail.com");
         mainP.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(179, 209, -1, -1));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/materials/icon/cross-icon - копия.png"))); // NOI18N

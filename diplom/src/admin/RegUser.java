@@ -32,7 +32,7 @@ public class RegUser extends javax.swing.JFrame {
    
             
     public RegUser() {
-        super("Регистрация");
+        super("Регистрация нового пользователя в системе");
         initComponents();
         getCountry();
         getRole();

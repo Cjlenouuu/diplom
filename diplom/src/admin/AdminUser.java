@@ -22,7 +22,7 @@ public class AdminUser extends javax.swing.JFrame {
     public static String Email = null;
     
     public AdminUser() {
-        super("&&&");
+        super("Управление пользователями");
         initComponents();{DefaultTableModel dtm = getDataUser();
         userT.setModel(dtm);userT.setAutoCreateRowSorter(true);userT.setFont(MainClass.fontB);
     }

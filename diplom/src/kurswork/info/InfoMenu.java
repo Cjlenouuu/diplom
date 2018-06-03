@@ -38,10 +38,6 @@ public class InfoMenu extends javax.swing.JFrame {
         backB = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        skillsB = new javax.swing.JButton();
-        longB = new javax.swing.JButton();
-        predB = new javax.swing.JButton();
-        orgB = new javax.swing.JButton();
         bmiB = new javax.swing.JButton();
         bmrB = new javax.swing.JButton();
 
@@ -105,7 +101,7 @@ public class InfoMenu extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(230, 230, 230)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(251, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,32 +110,6 @@ public class InfoMenu extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        skillsB.setBackground(new java.awt.Color(0, 144, 62));
-        skillsB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        skillsB.setForeground(new java.awt.Color(235, 235, 235));
-        skillsB.setText("Marathon Skills 2017");
-        skillsB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                skillsBActionPerformed(evt);
-            }
-        });
-
-        longB.setBackground(new java.awt.Color(0, 144, 62));
-        longB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        longB.setForeground(new java.awt.Color(235, 235, 235));
-        longB.setText("Длительность марафона");
-
-        predB.setBackground(new java.awt.Color(0, 144, 62));
-        predB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        predB.setForeground(new java.awt.Color(235, 235, 235));
-        predB.setText("Предыдущие результаты");
-
-        orgB.setBackground(new java.awt.Color(0, 144, 62));
-        orgB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        orgB.setForeground(new java.awt.Color(235, 235, 235));
-        orgB.setText("<html><p align-center>Благотворительные</p>организации</html>");
-        orgB.setAlignmentX(0.5F);
 
         bmiB.setBackground(new java.awt.Color(0, 144, 62));
         bmiB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
@@ -167,36 +137,22 @@ public class InfoMenu extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(82, 82, 82)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bmiB, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(predB, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(skillsB, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(longB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(orgB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bmrB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(94, 94, 94))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(bmiB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bmrB, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE))
+                .addGap(191, 191, 191))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(skillsB, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(longB, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(predB, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(orgB, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bmiB, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bmrB, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addGap(121, 121, 121)
+                .addComponent(bmiB, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                .addComponent(bmrB, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(98, 98, 98)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -218,10 +174,6 @@ public class InfoMenu extends javax.swing.JFrame {
         new kurswork.HomeF().setVisible(true);
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_backBActionPerformed
-
-    private void skillsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_skillsBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_skillsBActionPerformed
 
     private void bmiBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmiBActionPerformed
 new kurswork.info.BMIM().setVisible(true);
@@ -279,9 +231,5 @@ this.dispose();// TODO add your handling code here:
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JButton longB;
-    private javax.swing.JButton orgB;
-    private javax.swing.JButton predB;
-    private javax.swing.JButton skillsB;
     // End of variables declaration//GEN-END:variables
 }

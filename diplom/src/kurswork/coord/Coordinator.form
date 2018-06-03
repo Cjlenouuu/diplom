@@ -63,24 +63,16 @@
                           <Component id="titelL1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                          <Component id="runnersB" min="-2" pref="357" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
+                          <Component id="runnersB1" min="-2" pref="400" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="sponsersB" min="-2" pref="359" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="runnersB1" min="-2" pref="357" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="219" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <Component id="sponsersB" min="-2" pref="400" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -90,13 +82,11 @@
                   <Component id="headP" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="titelL1" pref="35" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                  <Component id="runnersB" min="-2" pref="100" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                   <Component id="runnersB1" min="-2" pref="100" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
                   <Component id="sponsersB" min="-2" pref="100" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                   <Component id="dawnP" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -246,23 +236,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="&#x41c;&#x415;&#x41d;&#x42e; &#x41a;&#x41e;&#x41e;&#x420;&#x414;&#x418;&#x41d;&#x410;&#x422;&#x41e;&#x420;&#x410;"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="runnersB">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="3e" green="90" red="0" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Century Gothic" size="18" style="3"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="eb" green="eb" red="eb" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="&#x411;&#x435;&#x433;&#x443;&#x43d;&#x44b;"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runnersBActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="sponsersB">
           <Properties>

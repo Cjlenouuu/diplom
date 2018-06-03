@@ -173,7 +173,7 @@ public static String charityNum;
         sumL.setFont(new java.awt.Font("Century Gothic", 1, 64)); // NOI18N
         sumL.setForeground(new java.awt.Color(80, 80, 80));
         sumL.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        mainP.add(sumL, new org.netbeans.lib.awtextra.AbsoluteConstraints(507, 455, 240, 80));
+        mainP.add(sumL, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 470, 310, 80));
 
         titelL2.setBackground(new java.awt.Color(36, 29, 112));
         titelL2.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
@@ -230,18 +230,33 @@ public static String charityNum;
         fullmCB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         fullmCB.setForeground(new java.awt.Color(80, 80, 80));
         fullmCB.setText("42 km Полный марафон ($145$) ");
+        fullmCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fullmCBActionPerformed(evt);
+            }
+        });
         mainP.add(fullmCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, -1, -1));
 
         halfmCB.setBackground(new java.awt.Color(253, 193, 0));
         halfmCB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         halfmCB.setForeground(new java.awt.Color(80, 80, 80));
         halfmCB.setText("21 km Полумарафон ($75$)");
+        halfmCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                halfmCBActionPerformed(evt);
+            }
+        });
         mainP.add(halfmCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, -1, -1));
 
         smallmCB.setBackground(new java.awt.Color(253, 193, 0));
         smallmCB.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         smallmCB.setForeground(new java.awt.Color(80, 80, 80));
         smallmCB.setText("5 km Малая дистанция ($20$)");
+        smallmCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                smallmCBActionPerformed(evt);
+            }
+        });
         mainP.add(smallmCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 380, -1, -1));
 
         titelL5.setBackground(new java.awt.Color(36, 29, 112));
@@ -276,7 +291,7 @@ public static String charityNum;
         titelL6.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
         titelL6.setForeground(new java.awt.Color(80, 80, 80));
         titelL6.setText("Регистрационный взнос");
-        mainP.add(titelL6, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 410, -1, 35));
+        mainP.add(titelL6, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 420, -1, 35));
 
         titelL7.setBackground(new java.awt.Color(36, 29, 112));
         titelL7.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
@@ -320,15 +335,52 @@ public static String charityNum;
     }// </editor-fold>//GEN-END:initComponents
 ButtonGroup group = new ButtonGroup();
     private void complaRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_complaRBActionPerformed
-        group.add(complaRB);
+        if (complaRB.isSelected()) {
+    sum = 0;
+    } else {if (complbRB.isSelected()){
+        sum = 20;
+    } else {if (complcRB.isSelected())
+            {sum = 45;} else error = true;}};
+ if (fullmCB.isSelected()){sum = sum + 145;
+        };
+if (halfmCB.isSelected()){sum = sum + 75;
+        };
+if (smallmCB.isSelected()){sum = sum + 20;
+        };       
+sumL.setText("$" +sum);        group.add(complaRB);
     }//GEN-LAST:event_complaRBActionPerformed
 
     private void complbRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_complbRBActionPerformed
-         group.add(complbRB);
+        if (complaRB.isSelected()) {
+    sum = 0;
+    } else {if (complbRB.isSelected()){
+        sum = 20;
+    } else {if (complcRB.isSelected())
+            {sum = 45;} else error = true;}};
+ if (fullmCB.isSelected()){sum = sum + 145;
+        };
+if (halfmCB.isSelected()){sum = sum + 75;
+        };
+if (smallmCB.isSelected()){sum = sum + 20;
+        };       
+sumL.setText("$" +sum);         group.add(complbRB);
     }//GEN-LAST:event_complbRBActionPerformed
 
     private void complcRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_complcRBActionPerformed
-         group.add(complcRB);
+        if (complaRB.isSelected()) {
+    sum = 0;
+    } else {if (complbRB.isSelected()){
+        sum = 20;
+    } else {if (complcRB.isSelected())
+            {sum = 45;} else error = true;}};
+ if (fullmCB.isSelected()){sum = sum + 145;
+        };
+if (halfmCB.isSelected()){sum = sum + 75;
+        };
+if (smallmCB.isSelected()){sum = sum + 20;
+        };       
+sumL.setText("$" +sum);
+group.add(complcRB);
     }//GEN-LAST:event_complcRBActionPerformed
 
     private void regBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regBActionPerformed
@@ -433,6 +485,54 @@ new MenuRunner().setVisible(true);
 new MenuRunner().setVisible(true);
 this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void fullmCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fullmCBActionPerformed
+        if (complaRB.isSelected()) {
+    sum = 0;
+    } else {if (complbRB.isSelected()){
+        sum = 20;
+    } else {if (complcRB.isSelected())
+            {sum = 45;} else error = true;}};
+ if (fullmCB.isSelected()){sum = sum + 145;
+        };
+if (halfmCB.isSelected()){sum = sum + 75;
+        };
+if (smallmCB.isSelected()){sum = sum + 20;
+        };       
+sumL.setText("$" +sum);        // TODO add your handling code here:
+    }//GEN-LAST:event_fullmCBActionPerformed
+
+    private void halfmCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_halfmCBActionPerformed
+        if (complaRB.isSelected()) {
+    sum = 0;
+    } else {if (complbRB.isSelected()){
+        sum = 20;
+    } else {if (complcRB.isSelected())
+            {sum = 45;} else error = true;}};
+ if (fullmCB.isSelected()){sum = sum + 145;
+        };
+if (halfmCB.isSelected()){sum = sum + 75;
+        };
+if (smallmCB.isSelected()){sum = sum + 20;
+        };       
+sumL.setText("$" +sum);        // TODO add your handling code here:
+    }//GEN-LAST:event_halfmCBActionPerformed
+
+    private void smallmCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smallmCBActionPerformed
+        if (complaRB.isSelected()) {
+    sum = 0;
+    } else {if (complbRB.isSelected()){
+        sum = 20;
+    } else {if (complcRB.isSelected())
+            {sum = 45;} else error = true;}};
+ if (fullmCB.isSelected()){sum = sum + 145;
+        };
+if (halfmCB.isSelected()){sum = sum + 75;
+        };
+if (smallmCB.isSelected()){sum = sum + 20;
+        };       
+sumL.setText("$" +sum);        // TODO add your handling code here:
+    }//GEN-LAST:event_smallmCBActionPerformed
 
 
     public static void main(String args[]) {

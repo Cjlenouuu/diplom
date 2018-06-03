@@ -46,7 +46,7 @@ public class EditUser extends javax.swing.JFrame {
     }
 
     public EditUser() {
-        super("Редактирование");
+        super("Редактирование профиля пользователя");
         getDataFromBase();
         initComponents();
         {

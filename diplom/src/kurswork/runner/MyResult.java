@@ -30,7 +30,7 @@ public class MyResult extends javax.swing.JFrame {
      * Creates new form Wablon
      */
     public MyResult() {
-        super("&&&");
+        super("Мои спонсоры");
         initComponents();
         setLocationRelativeTo(null);
         DefaultTableModel dtm = getData();

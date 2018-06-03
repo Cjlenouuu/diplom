@@ -38,7 +38,6 @@ public class MenuRunner extends javax.swing.JFrame {
         resultB = new javax.swing.JButton();
         editB = new javax.swing.JButton();
         sponsorB = new javax.swing.JButton();
-        contactB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,7 +109,7 @@ public class MenuRunner extends javax.swing.JFrame {
         dawnPLayout.setHorizontalGroup(
             dawnPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dawnPLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(282, Short.MAX_VALUE)
                 .addComponent(timeL, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(232, 232, 232))
         );
@@ -139,18 +138,18 @@ public class MenuRunner extends javax.swing.JFrame {
                 siginOfMarathonBActionPerformed(evt);
             }
         });
-        mainP.add(siginOfMarathonB, new org.netbeans.lib.awtextra.AbsoluteConstraints(173, 157, 190, 50));
+        mainP.add(siginOfMarathonB, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, 200, 50));
 
         resultB.setBackground(new java.awt.Color(0, 144, 62));
         resultB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         resultB.setForeground(new java.awt.Color(80, 80, 80));
-        resultB.setText("Мои результаты");
+        resultB.setText("Мои спонсоры");
         resultB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resultBActionPerformed(evt);
             }
         });
-        mainP.add(resultB, new org.netbeans.lib.awtextra.AbsoluteConstraints(475, 157, 198, 50));
+        mainP.add(resultB, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 220, 198, 50));
 
         editB.setBackground(new java.awt.Color(0, 144, 62));
         editB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
@@ -161,29 +160,18 @@ public class MenuRunner extends javax.swing.JFrame {
                 editBActionPerformed(evt);
             }
         });
-        mainP.add(editB, new org.netbeans.lib.awtextra.AbsoluteConstraints(173, 273, 190, 50));
+        mainP.add(editB, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 200, 50));
 
         sponsorB.setBackground(new java.awt.Color(0, 144, 62));
         sponsorB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         sponsorB.setForeground(new java.awt.Color(80, 80, 80));
-        sponsorB.setText("Мой спонсор");
+        sponsorB.setText("Контакты");
         sponsorB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sponsorBActionPerformed(evt);
             }
         });
-        mainP.add(sponsorB, new org.netbeans.lib.awtextra.AbsoluteConstraints(475, 273, 190, 50));
-
-        contactB.setBackground(new java.awt.Color(0, 144, 62));
-        contactB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
-        contactB.setForeground(new java.awt.Color(80, 80, 80));
-        contactB.setText("Контакты");
-        contactB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contactBActionPerformed(evt);
-            }
-        });
-        mainP.add(contactB, new org.netbeans.lib.awtextra.AbsoluteConstraints(173, 392, 190, 50));
+        mainP.add(sponsorB, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 340, 200, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -209,10 +197,6 @@ public class MenuRunner extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_logoutBActionPerformed
 
-    private void contactBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactBActionPerformed
-    new Contacts().setVisible(true);       
-    }//GEN-LAST:event_contactBActionPerformed
-
     private void siginOfMarathonBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siginOfMarathonBActionPerformed
     new RegOnMar().setVisible(true);
     this.dispose();
@@ -223,19 +207,14 @@ public class MenuRunner extends javax.swing.JFrame {
     this.dispose();        
     }//GEN-LAST:event_editBActionPerformed
 
-    private void sponsorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sponsorBActionPerformed
-        try {
-            new SponsorRun().setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(MenuRunner.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.dispose();
-    }//GEN-LAST:event_sponsorBActionPerformed
-
     private void resultBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultBActionPerformed
 new MyResult().setVisible(true);
 this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_resultBActionPerformed
+
+    private void sponsorBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sponsorBActionPerformed
+            new Contacts().setVisible(true); 
+    }//GEN-LAST:event_sponsorBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -275,7 +254,6 @@ this.dispose();// TODO add your handling code here:
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backB;
-    private javax.swing.JButton contactB;
     private javax.swing.JPanel dawnP;
     private javax.swing.JButton editB;
     private javax.swing.JPanel headP;
