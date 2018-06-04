@@ -1,0 +1,1 @@
+INSERT INTO `kurs`.`user` (`Email`, `Password`, `FirstName`, `LastName`, `RoleId`) VALUES ('aaaaaaa', 'aaaaa', 'aaaa', 'aaaaa', 'R');
