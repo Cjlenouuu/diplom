@@ -34,7 +34,7 @@ public class Sponsor extends JFrame {
     public String[] charityName = new String[10000], runnerLast = new String[10000];
     public int[] registrationId = new int[10000];
       
-    int i = 1;
+    int i = 0;
            
         String red;
         String[] charaty = new String[10000];
@@ -399,10 +399,11 @@ moneyTF.setText(""+money);
 
     private void runInfoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runInfoCBActionPerformed
 
-        int numRunner = (Integer) runInfoCB.getSelectedIndex();    
+        int numRunner = (Integer) runInfoCB.getSelectedIndex(); 
+        
         charityL.setText(charityName[numRunner]);
         regId = registrationId[numRunner];
-        System.out.println(registrationId[numRunner]);
+        System.out.println("RegistrationId выбранный - " + registrationId[numRunner]);
     }//GEN-LAST:event_runInfoCBActionPerformed
 
     private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
@@ -418,15 +419,15 @@ moneyTF.setText(""+money);
     private void toPayBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toPayBActionPerformed
             try {
                 r.insert(regId, MainClass.emailS, money);
+                MainClass.runner = (String) runInfoCB.getSelectedItem();
+                MainClass.sum = moneyTF.getText();
+                int runner = (Integer) runInfoCB.getSelectedIndex(); 
+                new Thanks().setVisible(true);this.dispose();   
             } catch (IOException ex) {
                 Logger.getLogger(Sponsor.class.getName()).log(Level.SEVERE, null, ex);
             }
         
-        MainClass.runner = (String) runInfoCB.getSelectedItem();
-        MainClass.sum = moneyTF.getText();
-        int runner = (Integer) runInfoCB.getSelectedIndex(); 
-        
-        new Thanks().setVisible(true);this.dispose();     
+          
     }//GEN-LAST:event_toPayBActionPerformed
 
     private void logoutBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBActionPerformed
@@ -457,6 +458,7 @@ moneyTF.setText(""+money);
                     runnerName[i] = rs.getString("FirstName");
                     charityName[i] = rs.getString("CharityName");
                     registrationId[i] = rs.getInt("registration.RegistrationId");
+                    System.out.println("RegistrationId " + registrationId[i]);
                     i++;
                     dcbm.addElement(str);
                 }    
