@@ -5,6 +5,9 @@
  */
 package kurswork.sponsor;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import kurswork.HomeF;
 import kurswork.info.*;
 
@@ -147,11 +150,21 @@ public class SponsorMenu extends javax.swing.JFrame {
         statisticB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         statisticB.setForeground(new java.awt.Color(235, 235, 235));
         statisticB.setText("Статистика");
+        statisticB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statisticBActionPerformed(evt);
+            }
+        });
 
         editB.setBackground(new java.awt.Color(0, 144, 62));
         editB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         editB.setForeground(new java.awt.Color(235, 235, 235));
         editB.setText("Редактирование");
+        editB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainPLayout = new javax.swing.GroupLayout(mainP);
         mainP.setLayout(mainPLayout);
@@ -219,6 +232,19 @@ public class SponsorMenu extends javax.swing.JFrame {
         new Sponsor().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_sponsoringBActionPerformed
+
+    private void statisticBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticBActionPerformed
+        
+    }//GEN-LAST:event_statisticBActionPerformed
+
+    private void editBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBActionPerformed
+        try {     
+            new SponsorEdit().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(SponsorMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
+    }//GEN-LAST:event_editBActionPerformed
 
     /**
      * @param args the command line arguments

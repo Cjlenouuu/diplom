@@ -1,6 +1,10 @@
 package kurswork.coord;
 
 import admin.MenegeCharity;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.PrintJob;
+import java.awt.Toolkit;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -84,6 +88,7 @@ public class RunnerInMar extends javax.swing.JFrame {
         titelL1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         runnerT = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -183,6 +188,15 @@ public class RunnerInMar extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(runnerT);
 
+        jButton1.setBackground(new java.awt.Color(0, 144, 62));
+        jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton1.setText("Напечатать сертификат выбранному участнику");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPLayout = new javax.swing.GroupLayout(mainP);
         mainP.setLayout(mainPLayout);
         mainPLayout.setHorizontalGroup(
@@ -192,11 +206,13 @@ public class RunnerInMar extends javax.swing.JFrame {
             .addGroup(mainPLayout.createSequentialGroup()
                 .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPLayout.createSequentialGroup()
-                        .addGap(167, 167, 167)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(mainPLayout.createSequentialGroup()
                         .addGap(212, 212, 212)
-                        .addComponent(titelL1)))
+                        .addComponent(titelL1))
+                    .addGroup(mainPLayout.createSequentialGroup()
+                        .addGap(167, 167, 167)
+                        .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPLayout.setVerticalGroup(
@@ -205,7 +221,9 @@ public class RunnerInMar extends javax.swing.JFrame {
                 .addComponent(headP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(titelL1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(49, 49, 49)
+                .addGap(11, 11, 11)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(dawnP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -234,6 +252,20 @@ public class RunnerInMar extends javax.swing.JFrame {
         new HomeF().setVisible(true);
         this.dispose();        
     }//GEN-LAST:event_logoutBActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+Toolkit toolkit=Toolkit.getDefaultToolkit();
+		PrintJob printJob=toolkit.getPrintJob(this, "first", null);
+		if(printJob!=null){
+			Graphics graphics=printJob.getGraphics();
+			ImageIcon img1 = new javax.swing.ImageIcon(getClass().getResource("/materials/icon/male-icon.png"));
+                        Image img = img1.getImage();
+                        graphics.drawImage(img,0, 0, this);
+                        graphics.drawString("Test printing in Java",100,50);
+                        graphics.drawString("2Test printing in Java",110,60);
+			printJob.end();
+		}        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,6 +309,7 @@ public class RunnerInMar extends javax.swing.JFrame {
     private javax.swing.JButton backB;
     private javax.swing.JPanel dawnP;
     private javax.swing.JPanel headP;
+    private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton logoutB;
