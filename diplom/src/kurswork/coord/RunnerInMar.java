@@ -1,10 +1,14 @@
 package kurswork.coord;
 
 import admin.MenegeCharity;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.PrintJob;
 import java.awt.Toolkit;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,6 +18,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import kurswork.HomeF;
 import kurswork.MainClass;
@@ -254,17 +259,37 @@ public class RunnerInMar extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutBActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-Toolkit toolkit=Toolkit.getDefaultToolkit();
+          
+        try{
+                String surname = (String) runnerT.getValueAt(runnerT.getSelectedRow(),1);
+                String name = (String) runnerT.getValueAt(runnerT.getSelectedRow(),2);
+                String dist = (String) runnerT.getValueAt(runnerT.getSelectedRow(),3);
+                
+                 Toolkit toolkit=Toolkit.getDefaultToolkit();
 		PrintJob printJob=toolkit.getPrintJob(this, "first", null);
+		//PrintJob printJob=toolkit.getPrintJob(this, "first", null);
+                
 		if(printJob!=null){
-			Graphics graphics=printJob.getGraphics();
-			ImageIcon img1 = new javax.swing.ImageIcon(getClass().getResource("/materials/icon/male-icon.png"));
+			
+                    Graphics graphics=printJob.getGraphics();
+                      
+                        graphics.setColor(Color.red);
+                        graphics.setFont(new java.awt.Font("Century Gothic", 3, 38));
+			ImageIcon img1 = new javax.swing.ImageIcon(getClass().getResource("/materials/icon/sert.jpg"));
                         Image img = img1.getImage();
                         graphics.drawImage(img,0, 0, this);
-                        graphics.drawString("Test printing in Java",100,50);
-                        graphics.drawString("2Test printing in Java",110,60);
-			printJob.end();
-		}        // TODO add your handling code here:
+                        graphics.drawString(surname,170,200);
+                        graphics.drawString(name,170,240);
+                        
+                        graphics.setFont(new java.awt.Font("Century Gothic", 3, 13));
+                        graphics.drawString("За участие в марафоне на дистанции \"" +dist +"\"",100,290);
+                        
+                        printJob.end();
+		}  
+                }catch(Exception ex){JOptionPane.showMessageDialog(rootPane, "Вы не выбрали участника из таблицы", "Ошибка", JOptionPane.ERROR_MESSAGE);}
+        
+        
+                     // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
