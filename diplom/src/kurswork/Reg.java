@@ -271,13 +271,13 @@ public class Reg extends javax.swing.JFrame {
 
         passL2.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         passL2.setForeground(new java.awt.Color(80, 80, 80));
-        passL2.setText("Имя:");
-        mainP.add(passL2, new org.netbeans.lib.awtextra.AbsoluteConstraints(114, 268, -1, -1));
+        passL2.setText("Фамилия:");
+        mainP.add(passL2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, -1, -1));
 
         passL3.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         passL3.setForeground(new java.awt.Color(80, 80, 80));
-        passL3.setText("Фамилия:");
-        mainP.add(passL3, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 295, -1, -1));
+        passL3.setText("Имя:");
+        mainP.add(passL3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, -1, -1));
         mainP.add(namerunTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(164, 269, 170, -1));
         mainP.add(surnamerunTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(164, 296, 170, -1));
 

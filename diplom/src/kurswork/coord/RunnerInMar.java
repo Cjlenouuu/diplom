@@ -285,6 +285,7 @@ public class RunnerInMar extends javax.swing.JFrame {
                         graphics.drawString("За участие в марафоне на дистанции \"" +dist +"\"",100,290);
                         
                         printJob.end();
+                        JOptionPane.showMessageDialog(rootPane, "Файл сохранен и ждет очереди на печать", "Успех", JOptionPane.INFORMATION_MESSAGE);
 		}  
                 }catch(Exception ex){JOptionPane.showMessageDialog(rootPane, "Вы не выбрали участника из таблицы", "Ошибка", JOptionPane.ERROR_MESSAGE);}
         
