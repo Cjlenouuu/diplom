@@ -234,7 +234,8 @@ public class SponsorMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_sponsoringBActionPerformed
 
     private void statisticBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticBActionPerformed
-        
+        new SponsorStatus().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_statisticBActionPerformed
 
     private void editBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBActionPerformed

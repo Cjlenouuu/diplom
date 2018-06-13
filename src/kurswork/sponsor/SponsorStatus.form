@@ -146,6 +146,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="&#x41d;&#x430;&#x437;&#x430;&#x434;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backBActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="logoutB">
               <Properties>

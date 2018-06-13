@@ -31,7 +31,7 @@ public class SponsorStatus extends javax.swing.JFrame {
         super("Статус");
         initComponents();
         setLocationRelativeTo(null);
-        DefaultTableModel dtm = new DefaultTableModel();
+        DefaultTableModel dtm = getDataStatus();
         statT.setModel(dtm);
         
     }
@@ -76,6 +76,11 @@ public class SponsorStatus extends javax.swing.JFrame {
         backB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         backB.setForeground(new java.awt.Color(80, 80, 80));
         backB.setText("Назад");
+        backB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBActionPerformed(evt);
+            }
+        });
 
         logoutB.setBackground(new java.awt.Color(253, 193, 0));
         logoutB.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
@@ -197,6 +202,11 @@ public class SponsorStatus extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_logoutBActionPerformed
 
+    private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
+        new SponsorMenu().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backBActionPerformed
+
     private DefaultTableModel getDataStatus() {
         DefaultTableModel dtm = new DefaultTableModel(){
             public Class getColumnClass(int column)
@@ -206,7 +216,7 @@ public class SponsorStatus extends javax.swing.JFrame {
         };
         String query = "SELECT SponsorshipId, Amount, FirstName, LastName\n" +
                         "FROM sponsorship, registration, runner, user \n" +
-                        "WHERE SponsorshipId like '2' and\n" +
+                        "WHERE SponsorshipId like '" + MainClass.emailS + "' and\n" +
                         "sponsorship.RegistrationId = registration.RegistrationId and\n" +
                         "registration.RunnerId = runner.RunnerId and \n" +
                         "runner.Email = user.Email;";
