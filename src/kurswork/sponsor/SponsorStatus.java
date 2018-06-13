@@ -3,7 +3,19 @@
  */
 package kurswork.sponsor;
 
+import admin.MenegeCharity;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
 import kurswork.HomeF;
+import kurswork.MainClass;
 import kurswork.info.*;
 
 /**
@@ -16,9 +28,12 @@ public class SponsorStatus extends javax.swing.JFrame {
      * Creates new form Wablon
      */
     public SponsorStatus() {
-        super("&&&");
+        super("Статус");
         initComponents();
         setLocationRelativeTo(null);
+        DefaultTableModel dtm = new DefaultTableModel();
+        statT.setModel(dtm);
+        
     }
 
     /**
@@ -38,6 +53,9 @@ public class SponsorStatus extends javax.swing.JFrame {
         logoutB = new javax.swing.JButton();
         dawnP = new javax.swing.JPanel();
         timerL = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        statT = new javax.swing.JTable();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -118,18 +136,45 @@ public class SponsorStatus extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(80, 80, 80));
+        jLabel1.setText("Статистика спонсирования бегунов");
+
+        statT.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(statT);
+
         javax.swing.GroupLayout mainPLayout = new javax.swing.GroupLayout(mainP);
         mainP.setLayout(mainPLayout);
         mainPLayout.setHorizontalGroup(
             mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(dawnP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(headP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(150, 150, 150))
         );
         mainPLayout.setVerticalGroup(
             mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPLayout.createSequentialGroup()
                 .addComponent(headP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 439, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addComponent(dawnP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -152,9 +197,42 @@ public class SponsorStatus extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_logoutBActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private DefaultTableModel getDataStatus() {
+        DefaultTableModel dtm = new DefaultTableModel(){
+            public Class getColumnClass(int column)
+            {
+                return getValueAt(0, column).getClass();
+            }
+        };
+        String query = "SELECT SponsorshipId, Amount, FirstName, LastName\n" +
+                        "FROM sponsorship, registration, runner, user \n" +
+                        "WHERE SponsorshipId like '2' and\n" +
+                        "sponsorship.RegistrationId = registration.RegistrationId and\n" +
+                        "registration.RunnerId = runner.RunnerId and \n" +
+                        "runner.Email = user.Email;";
+        dtm.addColumn("Фамилия");
+        dtm.addColumn("Имя");
+        dtm.addColumn("Сумма");
+        try {
+            Connection con = DriverManager.getConnection(MainClass.URL,MainClass.USER, MainClass.PASS);
+            Statement stmt =con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {  
+                String firstName = rs.getString("FirstName");
+                String lastName = rs.getString("LastName");
+                String amount = rs.getString("Amount");
+                       
+                dtm.addRow(new Object[] {lastName, firstName, amount}); //добавляем строчку в таблицу               
+            }
+        rs.close();stmt.close();con.close();
+        return dtm;  
+        } catch (SQLException ex) {
+            Logger.getLogger(MenegeCharity.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("лалка");
+        }
+        return null;      
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -193,8 +271,11 @@ public class SponsorStatus extends javax.swing.JFrame {
     private javax.swing.JPanel dawnP;
     private javax.swing.JPanel headP;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton logoutB;
     private javax.swing.JPanel mainP;
+    private javax.swing.JTable statT;
     private javax.swing.JLabel timerL;
     private javax.swing.JLabel titelL;
     // End of variables declaration//GEN-END:variables
