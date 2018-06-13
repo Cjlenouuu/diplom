@@ -33,7 +33,7 @@ public class SponsorStatus extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         DefaultTableModel dtm = getDataStatus();
         statT.setModel(dtm);
-        
+        System.out.println(MainClass.emailS);
     }
 
     /**
@@ -216,7 +216,7 @@ public class SponsorStatus extends javax.swing.JFrame {
         };
         String query = "SELECT SponsorshipId, Amount, FirstName, LastName\n" +
                         "FROM sponsorship, registration, runner, user \n" +
-                        "WHERE SponsorshipId like '" + MainClass.emailS + "' and\n" +
+                        "WHERE SponsornameId like '" + MainClass.emailS + "' and\n" +
                         "sponsorship.RegistrationId = registration.RegistrationId and\n" +
                         "registration.RunnerId = runner.RunnerId and \n" +
                         "runner.Email = user.Email;";
@@ -231,7 +231,7 @@ public class SponsorStatus extends javax.swing.JFrame {
                 String firstName = rs.getString("FirstName");
                 String lastName = rs.getString("LastName");
                 String amount = rs.getString("Amount");
-                       
+                    
                 dtm.addRow(new Object[] {lastName, firstName, amount}); //добавляем строчку в таблицу               
             }
         rs.close();stmt.close();con.close();
