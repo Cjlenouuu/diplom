@@ -1,29 +1,39 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+Данная форма служит для показа статистикик по бегунам у спонсора
  */
 package kurswork.sponsor;
 
+import admin.MenegeCharity;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
 import kurswork.HomeF;
+import kurswork.MainClass;
 import kurswork.info.*;
 
 /**
  *
  * @author user
  */
-public class SponsorMenu extends javax.swing.JFrame {
+public class SponsorStatus extends javax.swing.JFrame {
 
     /**
      * Creates new form Wablon
      */
-    public SponsorMenu() {
-        super("Меню спонсора");
+    public SponsorStatus() {
+        super("Статус");
         initComponents();
         setLocationRelativeTo(null);
+        DefaultTableModel dtm = getDataStatus();
+        statT.setModel(dtm);
+        System.out.println(MainClass.emailS);
     }
 
     /**
@@ -43,10 +53,9 @@ public class SponsorMenu extends javax.swing.JFrame {
         logoutB = new javax.swing.JButton();
         dawnP = new javax.swing.JPanel();
         timerL = new javax.swing.JLabel();
-        nameL = new javax.swing.JLabel();
-        sponsoringB = new javax.swing.JButton();
-        statisticB = new javax.swing.JButton();
-        editB = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        statT = new javax.swing.JTable();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -94,7 +103,7 @@ public class SponsorMenu extends javax.swing.JFrame {
                 .addComponent(titelL)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logoutB, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+                .addGap(32, 32, 32))
         );
         headPLayout.setVerticalGroup(
             headPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,39 +141,28 @@ public class SponsorMenu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        nameL.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
-        nameL.setForeground(new java.awt.Color(80, 80, 80));
-        nameL.setText("Меню спонсора");
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(80, 80, 80));
+        jLabel1.setText("Статистика спонсирования бегунов");
 
-        sponsoringB.setBackground(new java.awt.Color(0, 144, 62));
-        sponsoringB.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        sponsoringB.setForeground(new java.awt.Color(235, 235, 235));
-        sponsoringB.setText("Спонсирование");
-        sponsoringB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sponsoringBActionPerformed(evt);
+        statT.setBackground(new java.awt.Color(253, 193, 0));
+        statT.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
+        statT.setForeground(new java.awt.Color(80, 80, 80));
+        statT.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        });
-
-        statisticB.setBackground(new java.awt.Color(0, 144, 62));
-        statisticB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        statisticB.setForeground(new java.awt.Color(235, 235, 235));
-        statisticB.setText("Статистика");
-        statisticB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statisticBActionPerformed(evt);
-            }
-        });
-
-        editB.setBackground(new java.awt.Color(0, 144, 62));
-        editB.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
-        editB.setForeground(new java.awt.Color(235, 235, 235));
-        editB.setText("Редактирование");
-        editB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editBActionPerformed(evt);
-            }
-        });
+        ));
+        statT.setToolTipText("");
+        statT.setGridColor(new java.awt.Color(80, 80, 80));
+        statT.setSelectionForeground(new java.awt.Color(253, 193, 0));
+        jScrollPane2.setViewportView(statT);
 
         javax.swing.GroupLayout mainPLayout = new javax.swing.GroupLayout(mainP);
         mainP.setLayout(mainPLayout);
@@ -176,31 +174,21 @@ public class SponsorMenu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
-                        .addComponent(editB)
-                        .addGap(291, 291, 291))
+                        .addComponent(jLabel1)
+                        .addGap(150, 150, 150))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
-                        .addComponent(nameL)
-                        .addGap(283, 283, 283))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPLayout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(sponsoringB, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(statisticB, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(133, 133, 133))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(129, 129, 129))))
         );
         mainPLayout.setVerticalGroup(
             mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPLayout.createSequentialGroup()
                 .addComponent(headP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(nameL)
-                .addGap(67, 67, 67)
-                .addGroup(mainPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(statisticB, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sponsoringB, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(71, 71, 71)
-                .addComponent(editB, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addComponent(dawnP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -218,38 +206,52 @@ public class SponsorMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
-        new HomeF().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_backBActionPerformed
-
     private void logoutBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBActionPerformed
         new HomeF().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_logoutBActionPerformed
 
-    private void sponsoringBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sponsoringBActionPerformed
-        new Sponsor().setVisible(true);
+    private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
+        new SponsorMenu().setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_sponsoringBActionPerformed
+    }//GEN-LAST:event_backBActionPerformed
 
-    private void statisticBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticBActionPerformed
-        new SponsorStatus().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_statisticBActionPerformed
-
-    private void editBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBActionPerformed
-        try {     
-            new SponsorEdit().setVisible(true);
+    private DefaultTableModel getDataStatus() {
+        DefaultTableModel dtm = new DefaultTableModel(){
+            public Class getColumnClass(int column)
+            {
+                return getValueAt(0, column).getClass();
+            }
+        };
+        String query = "SELECT SponsorshipId, Amount, FirstName, LastName\n" +
+                        "FROM sponsorship, registration, runner, user \n" +
+                        "WHERE SponsornameId like '" + MainClass.emailS + "' and\n" +
+                        "sponsorship.RegistrationId = registration.RegistrationId and\n" +
+                        "registration.RunnerId = runner.RunnerId and \n" +
+                        "runner.Email = user.Email;";
+        dtm.addColumn("Фамилия");
+        dtm.addColumn("Имя");
+        dtm.addColumn("Сумма");
+        try {
+            Connection con = DriverManager.getConnection(MainClass.URL,MainClass.USER, MainClass.PASS);
+            Statement stmt =con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {  
+                String firstName = rs.getString("FirstName");
+                String lastName = rs.getString("LastName");
+                String amount = rs.getString("Amount");
+                    
+                dtm.addRow(new Object[] {lastName, firstName, amount}); //добавляем строчку в таблицу               
+            }
+        rs.close();stmt.close();con.close();
+        return dtm;  
         } catch (SQLException ex) {
-            Logger.getLogger(SponsorMenu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenegeCharity.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("лалка");
         }
-        this.dispose();
-    }//GEN-LAST:event_editBActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
+        return null;      
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -264,13 +266,13 @@ public class SponsorMenu extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SponsorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SponsorStatus.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SponsorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SponsorStatus.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SponsorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SponsorStatus.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SponsorMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SponsorStatus.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -278,7 +280,7 @@ public class SponsorMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SponsorMenu().setVisible(true);
+                new SponsorStatus().setVisible(true);
             }
         });
     }
@@ -286,14 +288,13 @@ public class SponsorMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backB;
     private javax.swing.JPanel dawnP;
-    private javax.swing.JButton editB;
     private javax.swing.JPanel headP;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton logoutB;
     private javax.swing.JPanel mainP;
-    private javax.swing.JLabel nameL;
-    private javax.swing.JButton sponsoringB;
-    private javax.swing.JButton statisticB;
+    private javax.swing.JTable statT;
     private javax.swing.JLabel timerL;
     private javax.swing.JLabel titelL;
     // End of variables declaration//GEN-END:variables
